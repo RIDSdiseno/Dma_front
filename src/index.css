@@ -23,10 +23,15 @@ h1,h2{margin:0 0 8px 0;font-family:var(--font-heading)}
 .centered{max-width:1200px;margin:0 auto;padding:0 20px}
 
 /* Header / Nav */
-.site-header{background:rgba(0,0,0,0.55);border-bottom:1px solid var(--border);backdrop-filter:blur(6px);position:sticky;top:0;z-index:40;box-shadow:0 1px 0 rgba(255,255,255,0.02)}
+.site-header{background:rgba(0,0,0,0.55);backdrop-filter:blur(6px);position:sticky;top:0;z-index:40;box-shadow:0 1px 0 rgba(255,255,255,0.02)}
 .site-header .container{display:flex;justify-content:space-between;align-items:center;padding:18px 20px}
 .brand{font-weight:700;font-family:'Montserrat',sans-serif;color:var(--text)}
 .brand-logo{height:56px;display:block}
+
+/* Light/gold logo variant by filtering the source image (no new asset needed) */
+.brand-logo--light{
+  filter: invert(1) sepia(1) saturate(6) hue-rotate(-20deg) brightness(1.05) contrast(0.9);
+}
 
 /* Navbar right group */
 .nav-right{display:flex;align-items:center;gap:18px}
@@ -59,7 +64,7 @@ h1,h2{margin:0 0 8px 0;font-family:var(--font-heading)}
 .project-card p{color:var(--muted);font-size:0.95rem}
 
 /* Footer */
-.site-footer{border-top:1px solid var(--border);padding:22px 0;background:transparent;margin-top:60px}
+.site-footer{padding:22px 0;background:transparent;margin-top:60px}
 .site-footer .container{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:0.95rem}
 
 /* Hero moved to TypeScript styles (see src/styles/heroStyles.ts) */
@@ -170,12 +175,12 @@ body{background:var(--bg)}
 .services-hero{font-size:96px;line-height:0.9;margin:0;color:var(--text-h);font-weight:500}
 .services-intro{margin-top:24px;color:var(--muted);max-width:520px}
 
-.accordion{border-left:1px solid var(--border);padding-left:28px}
-.accordion-item{border-bottom:1px solid rgba(15,23,42,0.04);padding:18px 0}
+.accordion{padding-left:28px}
+.accordion-item{padding:18px 0}
 .accordion-toggle{display:flex;align-items:center;gap:18px;width:100%;background:transparent;border:0;padding:0;cursor:pointer;text-align:left}
 .acc-number{font-weight:700;color:var(--muted);width:84px;font-size:28px;line-height:1;text-align:right;padding-right:12px}
 .acc-title{flex:1;font-size:20px;color:var(--text-h)}
-.acc-icon{width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(15,23,42,0.06);background:transparent}
+.acc-icon{width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:transparent}
 .panel{overflow:hidden;transition:max-height .6s cubic-bezier(.2,.6,.2,1),padding .45s cubic-bezier(.2,.6,.2,1)}
 .panel-inner{padding:12px 0 0 0;color:var(--muted);text-align:left;opacity:0;transform:translateY(6px);transition:opacity .45s ease,transform .45s ease}
 .accordion-item.open .panel-inner{opacity:1;transform:translateY(0)}
@@ -270,7 +275,7 @@ h2{font-family:var(--font-heading)}
   max-width: 100%;
   margin: 0 auto;
   text-align: center;
-  border-inline: 1px solid var(--border);
+  border-inline: none;
   min-height: 100svh;
   display: flex;
   flex-direction: column;

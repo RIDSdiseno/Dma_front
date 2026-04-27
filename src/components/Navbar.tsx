@@ -7,7 +7,7 @@ export default function Navbar(): ReactElement {
       <div className="container nav-row">
         <div className="content" style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
           <div className="brand">
-            <img src={logo} alt="DM-A" className="brand-logo" />
+            <img src={logo} alt="DM-A" className="brand-logo brand-logo--light" />
           </div>
           <div className="nav-right" style={{marginLeft:'auto',display:'flex',alignItems:'center',gap:20}}>
             <nav className="nav">
