@@ -1,8 +1,10 @@
+import { useEffect } from 'react'
 import Layout from './components/Layout'
 import Hero from './components/Hero'
 import ProjectCard from './components/ProjectCard'
 import Services from './components/Services'
 import Gallery from './components/Gallery'
+import MosaicGallery from './components/MosaicGallery'
 import Team from './components/Team'
 import ContactForm from './components/ContactForm'
 import g22 from './assets/g22.jpg'
@@ -10,6 +12,11 @@ import exterior from './assets/exterior.jpg'
 import oficina from './assets/oficina.jpg'
 
 export default function App() {
+  useEffect(() => {
+    // Inicializa animaciones por scroll (IntersectionObserver)
+    import('./utils/animateOnScroll').then((m) => m.default())
+  }, [])
+
   const projects = [
     { title: 'Vivienda familiar', excerpt: 'Reordenamiento interior y fachada', image: g22 },
     { title: 'Casa de fin de semana', excerpt: 'Integración con paisaje', image: exterior },
@@ -42,7 +49,7 @@ export default function App() {
         </div>
       </section>
 
-      <Gallery />
+      <MosaicGallery />
 
       <Team />
 
