@@ -6,7 +6,6 @@ export function initAnimations() {
     '.project-card',
     '.service-card',
     '.gallery-grid img',
-    '.member',
     '.contact-form',
   ]
 

@@ -4,7 +4,9 @@ type Props = {
   image?: string
 }
 
-export default function ProjectCard({ title, excerpt, image }: Props) {
+import type { ReactElement } from 'react'
+
+export default function ProjectCard({ title, excerpt, image }: Props): ReactElement {
   return (
     <article className="project-card">
       {image && <img src={image} alt={title} />}

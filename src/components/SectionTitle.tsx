@@ -30,7 +30,9 @@ const underlineStyles: React.CSSProperties = {
   opacity: 0.95,
 }
 
-export default function SectionTitle({ children, id, className }: Props) {
+import type { ReactElement } from 'react'
+
+export default function SectionTitle({ children, id, className }: Props): ReactElement {
   return (
     <div id={id} className={className} style={{ textAlign: 'center' }}>
       <h2 style={styles}>{children}</h2>

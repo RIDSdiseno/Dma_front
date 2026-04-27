@@ -2,63 +2,56 @@ import type { CSSProperties } from 'react'
 import heroImg from '../assets/portada.jpg'
 
 export const heroWrapper: CSSProperties = {
-  position: 'relative',
-  overflow: 'hidden',
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr',
+  gap: 24,
+  alignItems: 'stretch',
   width: '100%',
-  height: 520,
+  minHeight: 520,
+  padding: '48px 0',
 }
 
-export const heroBackground: CSSProperties = {
-  position: 'absolute',
-  inset: 0,
+export const heroLeft: CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  paddingLeft: '6vw',
+}
+
+export const heroRight: CSSProperties = {
   backgroundImage: `url(${heroImg})`,
   backgroundSize: 'cover',
   backgroundPosition: 'center',
-  filter: 'brightness(0.55)',
-}
-
-export const heroInner: CSSProperties = {
-  position: 'absolute',
-  left: '50%',
-  top: '50%',
-  transform: 'translate(-50%,-50%)',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  color: '#fff',
-  padding: '40px',
-  textAlign: 'center',
-}
-
-export const heroContent: CSSProperties = {
-  maxWidth: 900,
-  width: 'min(98%,900px)',
-  paddingLeft: 60,
+  borderRadius: 12,
+  minHeight: 400,
 }
 
 export const heroTitle: CSSProperties = {
-  fontSize: '3rem',
+  fontFamily: "'Playfair Display', serif",
+  fontSize: 'clamp(2.4rem, 5vw, 5.2rem)',
+  lineHeight: 0.98,
   margin: 0,
-  lineHeight: 1.05,
-  textShadow: '0 6px 18px rgba(0,0,0,0.6)',
-  color: '#fff',
+  color: 'var(--text-h, #0f172a)',
+  fontWeight: 700,
 }
 
-export const heroText: CSSProperties = {
-  marginTop: 8,
-  color: 'rgba(255,255,255,0.95)',
-  textShadow: '0 4px 12px rgba(0,0,0,0.45)',
-}
-
-export const heroButton: CSSProperties = {
-  display: 'inline-block',
+export const heroLead: CSSProperties = {
   marginTop: 12,
-  padding: '12px 20px',
-  background: 'var(--primary)',
+  fontFamily: "'Inter', sans-serif",
+  color: 'var(--muted, #475569)',
+  fontSize: 'clamp(1rem, 2.2vw, 1.125rem)',
+  maxWidth: 640,
+}
+
+export const heroCTA: CSSProperties = {
+  marginTop: 18,
+  display: 'inline-block',
+  padding: '14px 22px',
+  background: 'var(--accent, #b45a35)',
   color: '#fff',
   borderRadius: 10,
   textDecoration: 'none',
-  border: '2px solid rgba(255,255,255,0.06)',
+  fontWeight: 600,
 }
 
 export default {}

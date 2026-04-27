@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react'
 import { useState } from 'react'
 
 type Service = { id: number; title: string; desc: string; bullets?: string[] }
@@ -40,7 +41,7 @@ const services: Service[] = [
   },
 ]
 
-export default function Services() {
+export default function Services(): ReactElement {
   const [openId, setOpenId] = useState<number | null>(1)
 
   return (

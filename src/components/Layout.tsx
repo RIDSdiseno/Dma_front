@@ -5,7 +5,9 @@ import WhatsAppButton from './WhatsAppButton'
 
 type Props = { children: React.ReactNode }
 
-export default function Layout({ children }: Props) {
+import type { ReactElement } from 'react'
+
+export default function Layout({ children }: Props): ReactElement {
   return (
     <div className="site">
       <Navbar />

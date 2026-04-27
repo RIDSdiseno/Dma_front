@@ -1,25 +1,17 @@
+import type { ReactElement } from 'react'
 // using inline styles via src/styles/heroStyles.ts
-import {
-  heroWrapper,
-  heroBackground,
-  heroInner,
-  heroContent,
-  heroTitle,
-  heroText,
-  heroButton,
-} from '../styles/heroStyles'
+import { heroWrapper, heroLeft, heroRight, heroTitle, heroLead, heroCTA } from '../styles/heroStyles'
 
-export default function Hero() {
+export default function Hero(): ReactElement {
   return (
     <section id="hero" style={heroWrapper}>
-      <div style={heroBackground} aria-hidden />
-      <div style={heroInner}>
-        <div style={heroContent}>
-          <h1 style={heroTitle}>Estudio de Arquitectura & Diseño</h1>
-          <p style={heroText}>Proyectos Residenciales y Comerciales — Soluciones a Medida.</p>
-          <a style={heroButton} href="#contact">Solicitar Presupuesto</a>
-        </div>
+      <div style={heroLeft}>
+        <h1 style={heroTitle}>Estudio de Arquitectura & Diseño</h1>
+        <p style={heroLead}>Proyectos residenciales y comerciales con atención al detalle, claridad constructiva y soluciones a medida.</p>
+        <a href="#contact" style={heroCTA} aria-label="Solicitar presupuesto">Solicitar presupuesto</a>
       </div>
+
+      <div style={heroRight} role="img" aria-label="Imagen representativa de proyecto" />
     </section>
   )
 }

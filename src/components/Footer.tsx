@@ -1,4 +1,6 @@
-export default function Footer() {
+import type { ReactElement } from 'react'
+
+export default function Footer(): ReactElement {
   return (
     <footer className="site-footer">
       <div className="container">

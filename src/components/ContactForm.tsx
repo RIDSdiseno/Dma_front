@@ -1,4 +1,6 @@
-export default function ContactForm() {
+import type { ReactElement } from 'react'
+
+export default function ContactForm(): ReactElement {
   return (
     <form className="contact-form" onSubmit={(e) => e.preventDefault()}>
       <div className="row">

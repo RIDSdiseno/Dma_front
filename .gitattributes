@@ -1,0 +1,14 @@
+# Exclude large asset files from GitHub language stats (Linguist)
+src/assets/** linguist-vendored
+public/** linguist-vendored
+*.jpg linguist-vendored
+*.jpeg linguist-vendored
+*.png linguist-vendored
+*.webp linguist-vendored
+*.gif linguist-vendored
+*.mp4 linguist-vendored
+*.mov linguist-vendored
+*.svg linguist-vendored
+
+# Also mark node_modules as vendored (if present)
+node_modules/** linguist-vendored

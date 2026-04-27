@@ -1,8 +1,9 @@
+import type { ReactElement } from 'react'
 import { useState } from 'react'
 import SectionTitle from './SectionTitle'
 import { intro, members } from '../data/nosotros'
 
-export default function Team() {
+export default function Team(): ReactElement {
   const [open, setOpen] = useState<number | null>(null)
 
   const sectionStyle: React.CSSProperties = { paddingTop: 24, paddingBottom: 8 }
@@ -59,21 +60,40 @@ export default function Team() {
         </div>
 
         <div style={rightStyle} className="team-right">
-          {members.map((m, idx) => (
-            <div key={m.name} className="member reveal member-row" style={rowStyle} onClick={() => setOpen(open === idx ? null : idx)}>
-              {m.image ? (
-                <img src={m.image} alt={m.name} style={thumbStyle} className="member-thumb" />
-              ) : (
-                <div style={{ ...thumbStyle, background: '#eee' }} />
-              )}
+          {members.map((m, idx) => {
+            const isOpen = open === idx
+            return (
+              <div
+                key={m.name}
+                className={`member reveal member-row ${isOpen ? 'open' : ''}`}
+                style={rowStyle}
+                onClick={() => setOpen(isOpen ? null : idx)}
+                tabIndex={0}
+                role="button"
+                aria-expanded={isOpen}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    setOpen(isOpen ? null : idx)
+                  }
+                }}
+              >
+                {m.image ? (
+                  <img src={m.image} alt={m.name} style={thumbStyle} className="member-thumb" />
+                ) : (
+                  <div style={{ ...thumbStyle, background: '#eee' }} />
+                )}
 
-              <div style={{ flex: 1, textAlign: 'left' }}>
-                <div style={nameStyle}>{m.name}</div>
-                <div style={roleStyle}>{m.role}</div>
-                {open === idx && <p style={bioStyle}>{m.bio}</p>}
+                <div style={{ flex: 1, textAlign: 'left' }}>
+                  <div style={nameStyle}>{m.name}</div>
+                  <div style={roleStyle}>{m.role}</div>
+                  <div className="member-bio">
+                    <div style={bioStyle}>{m.bio}</div>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>

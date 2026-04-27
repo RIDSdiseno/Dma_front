@@ -1,6 +1,7 @@
 import logo from '../assets/logo.png'
+import type { ReactElement } from 'react'
 
-export default function Navbar() {
+export default function Navbar(): ReactElement {
   return (
     <header className="site-header">
       <div className="container nav-row">

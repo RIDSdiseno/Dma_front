@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ReactElement } from 'react'
 import SectionTitle from './SectionTitle'
 import ProjectCard from './ProjectCard'
 
@@ -11,7 +11,7 @@ import terminada from '../assets/terminada.jpg'
 
 const sampleImages = [portada, bano, exterior, g22, oficina, terminada]
 
-export default function Gallery() {
+export default function Gallery(): ReactElement {
   const items = sampleImages.map((url, i) => ({ title: `Proyecto ${i + 1}`, excerpt: 'Imagen destacada', image: url }))
 
   return (

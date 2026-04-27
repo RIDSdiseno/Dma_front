@@ -36,7 +36,9 @@ const images = [
   dm18,
 ]
 
-export default function MosaicGallery() {
+import type { ReactElement } from 'react'
+
+export default function MosaicGallery(): ReactElement {
   return (
     <section id="mosaic" className="container mosaic-section">
       <div className="content centered">
