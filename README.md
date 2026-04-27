@@ -1,3 +1,22 @@
+# DMA Front — Esqueleto del proyecto
+
+Proyecto scaffold creado con Vite + React + TypeScript. Este repositorio será la base para mejorar https://dm-a.cl inspirándose en https://epvarquitectura.com.ar
+
+Comandos útiles:
+
+```bash
+npm install
+npm run dev
+npm run build
+npm run preview
+npm run lint
+npm run type-check
+```
+
+Siguientes pasos recomendados:
+- Añadir Tailwind o biblioteca CSS si se desea (opcional)
+- Crear componentes para `Hero`, `ProjectCard`, `Contact` y layout
+- Configurar CI (GitHub Actions) y deploy a staging (Vercel/Netlify)
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
