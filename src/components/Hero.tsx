@@ -15,9 +15,9 @@ export default function Hero() {
       <div style={heroBackground} aria-hidden />
       <div style={heroInner}>
         <div style={heroContent}>
-          <h1 style={heroTitle}>Estudio de arquitectura & diseño</h1>
-          <p style={heroText}>Proyectos residenciales y comerciales — soluciones a medida.</p>
-          <a style={heroButton} href="#contact">Solicitar presupuesto</a>
+          <h1 style={heroTitle}>Estudio de Arquitectura & Diseño</h1>
+          <p style={heroText}>Proyectos Residenciales y Comerciales — Soluciones a Medida.</p>
+          <a style={heroButton} href="#contact">Solicitar Presupuesto</a>
         </div>
       </div>
     </section>

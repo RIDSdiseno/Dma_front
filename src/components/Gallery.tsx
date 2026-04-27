@@ -1,3 +1,5 @@
+import React from 'react'
+import SectionTitle from './SectionTitle'
 import ProjectCard from './ProjectCard'
 
 import portada from '../assets/portada.jpg'
@@ -15,7 +17,7 @@ export default function Gallery() {
   return (
     <section id="gallery" className="container gallery">
       <div className="content">
-        <h2>Galería</h2>
+        <SectionTitle>Galería</SectionTitle>
         <div className="gallery-grid">
           {items.map((it) => (
             <ProjectCard key={it.title} title={it.title} excerpt={it.excerpt} image={it.image} />

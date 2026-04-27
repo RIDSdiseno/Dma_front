@@ -13,7 +13,7 @@ export default function Navbar() {
               <a href="#hero">Inicio</a>
               <a href="#services">Servicios</a>
               <a href="#projects">Proyectos</a>
-              <a href="#team">Equipo</a>
+              <a href="#nosotros">Nosotros</a>
             </nav>
             <div className="cta">
               <a className="btn small" href="#contact">Contacto</a>

@@ -1,4 +1,5 @@
 
+import SectionTitle from './SectionTitle'
 import dm1 from '../assets/dm1.jpg'
 import dm2 from '../assets/dm2.jpg'
 import dm3 from '../assets/dm3.jpg'
@@ -39,7 +40,7 @@ export default function MosaicGallery() {
   return (
     <section id="mosaic" className="container mosaic-section">
       <div className="content centered">
-        <h2>Galería</h2>
+        <SectionTitle>Galería</SectionTitle>
         <div className="masonry">
           {images.map((src, i) => (
             <div className="masonry-item" key={i}>

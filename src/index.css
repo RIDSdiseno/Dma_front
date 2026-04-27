@@ -66,6 +66,19 @@ h1,h2{margin:0 0 8px 0;font-family:var(--font-heading)}
 .member h4{margin:6px 0 2px}
 .member small{color:var(--muted)}
 
+/* Nosotros (EPV-inspired) tweaks */
+.member-row{transition:transform .18s ease,box-shadow .18s ease;display:flex}
+.member-row:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(16,24,40,0.08)}
+.member-thumb{width:84px;height:84px;border-radius:50%;object-fit:cover;flex-shrink:0}
+
+@media (max-width:900px){
+  .member-row{padding:12px 0}
+  .member-thumb{width:72px;height:72px}
+}
+
+/* Positioning for Team right column to lower the members on wide screens */
+.team-right{margin-top:0}
+
 /* Contact */
 .contact-grid{display:grid;grid-template-columns:1fr 360px;gap:24px;align-items:start}
 .contact-form input,.contact-form textarea{width:100%;padding:12px;border:1px solid rgba(15,23,42,0.06);border-radius:8px;margin-bottom:10px}
@@ -306,6 +319,37 @@ code {
 /* Scroll reveal animations (inspiradas en epvarquitectura) */
 .reveal {opacity:0;transform:translateY(18px) scale(0.995);transition:opacity .7s cubic-bezier(.2,.9,.2,1),transform .7s cubic-bezier(.2,.9,.2,1);will-change:opacity,transform}
 .reveal.animated{opacity:1;transform:translateY(0) scale(1)}
+
+/* WhatsApp FAB fallback for small viewports (slightly larger on mobile) */
+/* WhatsApp FAB visual styles (refined) */
+.whatsapp-fab{
+  position:fixed !important;
+  right:28px !important;
+  bottom:28px !important;
+  width:56px !important;
+  height:56px !important;
+  border-radius:9999px !important;
+  background: linear-gradient(180deg,#25D366 0%, #16a34a 100%) !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  box-shadow:0 10px 26px rgba(37,211,102,0.12) !important;
+  z-index:9999 !important;
+  transition:transform .14s ease,box-shadow .14s ease,opacity .14s ease !important;
+  text-decoration:none !important;
+  color: #fff !important; /* icon color (currentColor) */
+  overflow:visible !important;
+}
+.whatsapp-fab:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(37,211,102,0.16) !important}
+.whatsapp-fab svg{width:34px;height:34px;display:block;line-height:0}
+
+@media (max-width:600px){
+  .whatsapp-fab{right:16px !important;bottom:16px !important;width:64px !important;height:64px !important}
+  .whatsapp-fab svg{width:28px;height:28px}
+}
+
+/* remove large glow to keep subtle */
+.whatsapp-fab::after{content:'';position:absolute;inset:0;border-radius:9999px;box-shadow:0 8px 20px rgba(37,211,102,0.06);pointer-events:none}
 
 /* Variantes */
 .reveal-left{transform:translateX(-20px);transition:opacity .7s ease,transform .7s ease}
