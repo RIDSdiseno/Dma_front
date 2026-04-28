@@ -6,9 +6,10 @@ import Services from './components/Services'
 import MosaicGallery from './components/MosaicGallery'
 import Team from './components/Team'
 import ContactForm from './components/ContactForm'
-import g22 from './assets/g22.jpg'
-import exterior from './assets/exterior.jpg'
-import oficina from './assets/oficina.jpg'
+import projects from './data/projects'
+import ProjectModal from './components/ProjectModal'
+import type { Project } from './data/projects'
+import { useState } from 'react'
 import SectionTitle from './components/SectionTitle'
 
 export default function App() {
@@ -17,11 +18,9 @@ export default function App() {
     import('./utils/animateOnScroll').then((m) => m.default())
   }, [])
 
-  const projects = [
-    { title: 'Vivienda Familiar', excerpt: 'Reordenamiento Interior y Fachada', image: g22 },
-    { title: 'Casa de Fin de Semana', excerpt: 'Integración con Paisaje', image: exterior },
-    { title: 'Edificio de Oficinas', excerpt: 'Proyecto Corporativo', image: oficina }
-  ]
+  // ahora los proyectos vienen desde `src/data/projects.ts`
+  const [selected, setSelected] = useState<Project | null>(null)
+  const [modalOpen, setModalOpen] = useState(false)
 
   return (
     <Layout>
@@ -32,7 +31,7 @@ export default function App() {
           <SectionTitle>Proyectos</SectionTitle>
           <div className="projects-grid">
             {projects.map((p) => (
-              <ProjectCard key={p.title} title={p.title} excerpt={p.excerpt} image={p.image} />
+              <ProjectCard key={p.id} title={p.title} excerpt={p.excerpt} image={p.image} onClick={() => { setSelected(p); setModalOpen(true) }} />
             ))}
           </div>
         </div>
@@ -44,7 +43,7 @@ export default function App() {
           <SectionTitle>Proyectos Destacados</SectionTitle>
         <div className="projects-grid">
           {projects.map((p) => (
-            <ProjectCard key={p.title} title={p.title} excerpt={p.excerpt} image={p.image} />
+            <ProjectCard key={p.id} title={p.title} excerpt={p.excerpt} image={p.image} onClick={() => { setSelected(p); setModalOpen(true) }} />
           ))}
         </div>
       </section>
@@ -52,6 +51,8 @@ export default function App() {
       <MosaicGallery />
 
       <Team />
+
+      <ProjectModal project={selected} open={modalOpen} onClose={() => setModalOpen(false)} />
 
       <section id="contact" className="container contact">
         <div className="content">
