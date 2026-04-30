@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import Layout from './components/Layout'
 import Hero from './components/Hero'
+import QuinchoConfigurator from './components/QuinchoConfigurator'
+import ConfiguratorModal from './components/ConfiguratorModal'
 import ProjectCard from './components/ProjectCard'
 import Services from './components/Services'
 import MosaicGallery from './components/MosaicGallery'
@@ -22,28 +24,35 @@ export default function App() {
   const [selected, setSelected] = useState<Project | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
 
+  // Configurator state lifted here so modal shows the latest inputs
+  const [qcArea, setQcArea] = useState<number>(10)
+  const [qcPkg, setQcPkg] = useState<'Starter'|'Pro'|'Full'>('Starter')
+  const [showQcModal, setShowQcModal] = useState(false)
+
   return (
     <Layout>
-      <Hero />
+      <Hero onDesignClick={() => setShowQcModal(true)} />
 
-      <section id="projects" className="container projects">
-        <div className="content">
-          <SectionTitle>Proyectos</SectionTitle>
-          <div className="projects-grid">
-            {projects.map((p) => (
-              <ProjectCard key={p.id} title={p.title} excerpt={p.excerpt} image={p.image} onClick={() => { setSelected(p); setModalOpen(true) }} />
-            ))}
-          </div>
-        </div>
-      </section>
+      <ConfiguratorModal open={showQcModal} onClose={() => setShowQcModal(false)} title="Diseña tu Quincho">
+        <QuinchoConfigurator area={qcArea} setArea={setQcArea} pkg={qcPkg} setPkg={setQcPkg} />
+      </ConfiguratorModal>
+
+      {/* Proyectos removed as requested - featured projects shown below */}
 
       <Services />
 
-      <section id="projects" className="container projects compact">
-          <SectionTitle>Proyectos Destacados</SectionTitle>
-        <div className="projects-grid">
+      <section id="featured" className="container featured-projects">
+        <SectionTitle>Proyectos Destacados</SectionTitle>
+        <div className="featured-grid">
           {projects.map((p) => (
-            <ProjectCard key={p.id} title={p.title} excerpt={p.excerpt} image={p.image} onClick={() => { setSelected(p); setModalOpen(true) }} />
+            <figure key={p.id} className="featured-item" role="button" tabIndex={0} onClick={() => { setSelected(p); setModalOpen(true) }} onKeyDown={(e) => { if (e.key === 'Enter') { setSelected(p); setModalOpen(true) } }}>
+              <img src={p.image} alt={p.title} />
+              <figcaption>
+                <h2>{p.title}</h2>
+                {p.excerpt && <p className="muted">{p.excerpt}</p>}
+                <button className="link-btn" onClick={(e) => { e.stopPropagation(); setSelected(p); setModalOpen(true) }}>Ver proyecto</button>
+              </figcaption>
+            </figure>
           ))}
         </div>
       </section>
@@ -58,11 +67,13 @@ export default function App() {
         <div className="content">
           <SectionTitle>Contacto</SectionTitle>
           <div className="contact-grid">
-            <div>
-              <p style={{marginBottom:8}}>Teléfono: <a href="tel:+56990784222">+56 9 9078 4222</a> • <a href="tel:+56992998255">+56 9 9299 8255</a></p>
-              <p style={{marginBottom:8}}>Email: <a href="mailto:contacto@dm-a.cl">contacto@dm-a.cl</a></p>
-              <p style={{marginBottom:8}}>WhatsApp: <a href="https://wa.me/56992998255?text=Hola%2C+tengo+una+consulta">+56 9 9299 8255</a></p>
-              <p>Dirección: La Concepción 65, Of. 1001, Providencia, Chile</p>
+            <div className="contact-card">
+              <div className="contact-card-left">
+                <p className="contact-line"><strong>Teléfono:</strong> +56 9 9078 4222 • +56 9 9299 8255</p>
+                <p className="contact-line"><strong>Email:</strong> contacto@dm-a.cl</p>
+                <p className="contact-line"><strong>WhatsApp:</strong> +56 9 9299 8255</p>
+                <p className="contact-line"><strong>Dirección:</strong> La Concepción 65, Of. 1001, Providencia, Chile</p>
+              </div>
             </div>
             <ContactForm />
           </div>

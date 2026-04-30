@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react'
 import SectionTitle from './SectionTitle'
-import ProjectCard from './ProjectCard'
+// Use the same markup as featured items so gallery inherits same full-bleed styles
 
 import portada from '../assets/portada.jpg'
 import bano from '../assets/bano.jpg'
@@ -16,13 +16,17 @@ export default function Gallery(): ReactElement {
 
   return (
     <section id="gallery" className="container gallery">
-      <div className="content">
-        <SectionTitle>Galería</SectionTitle>
-        <div className="gallery-grid">
-          {items.map((it) => (
-            <ProjectCard key={it.title} title={it.title} excerpt={it.excerpt} image={it.image} />
-          ))}
-        </div>
+      <SectionTitle>Galería</SectionTitle>
+      <div className="gallery-grid">
+        {items.map((it) => (
+          <figure key={it.title} className="featured-item project-card" role="button" tabIndex={0}>
+            <img src={it.image} alt={it.title} />
+            <figcaption>
+              <h2>{it.title}</h2>
+              {it.excerpt && <p className="muted">{it.excerpt}</p>}
+            </figcaption>
+          </figure>
+        ))}
       </div>
     </section>
   )
