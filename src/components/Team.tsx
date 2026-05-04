@@ -52,11 +52,7 @@ export default function Team(): ReactElement {
           <p style={introStyle}>{intro}</p>
 
           {/* Decorative hero image (kept for visual parity with EPV) */}
-          <div style={{ marginTop: 18 }}>
-            <div style={leftImageStyle} className="reveal" aria-hidden={hasHero ? 'false' : 'true'}>
-              {hasHero && <div style={overlayStyle} />}
-            </div>
-          </div>
+          {/* imagen decorativa eliminada por petición */}
         </div>
 
         <div style={rightStyle} className="team-right">

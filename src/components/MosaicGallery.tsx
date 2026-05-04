@@ -1,27 +1,59 @@
 
 import SectionTitle from './SectionTitle'
-import type { ReactElement } from 'react'
+import type { ReactElement, Key } from 'react'
 import { useEffect, useState } from 'react'
+import fallbackImg from '../assets/carousel-01.jpg'
 
 // Try to use locally downloaded carousel images (src/assets/carousel-*) if present.
 // Falls back to remote images hosted at dm-a.cl.
 let localImages: string[] = []
+// Map of base -> { avif:[], webp:[], jpg:[] }
+const localVariants: Record<string, { avif?: string[]; webp?: string[]; jpg?: string[] }> = {}
 try {
   const anyImportMeta = import.meta as any
+  let modules: Record<string, any> | null = null
   if (typeof anyImportMeta.glob === 'function') {
     // Vite: import.meta.glob with eager option
-    const modules: Record<string, any> = anyImportMeta.glob('../assets/carousel-*.*', { eager: true })
-    localImages = Object.values(modules).map((m: any) => (m && m.default) || m).filter(Boolean)
+    modules = anyImportMeta.glob('../assets/*.*', { eager: true })
   } else if (typeof anyImportMeta.globEager === 'function') {
     // older Vite variant
-    const modules: Record<string, any> = anyImportMeta.globEager('../assets/carousel-*.*')
-    localImages = Object.values(modules).map((m: any) => (m && m.default) || m).filter(Boolean)
+    modules = anyImportMeta.globEager('../assets/*.*')
+  }
+
+  if (modules) {
+    // collect all assets and build variants map
+      for (const [k, m] of Object.entries(modules)) {
+      try {
+        const url = (m && (m.default || m)) || null
+        if (!url) continue
+        // filename like '../assets/name-800.jpg' -> name-800.jpg
+        let filename = k.replace(/^\.\.\/assets\//, '')
+        try {
+          // if url is an absolute URL, prefer to extract filename from it (handles different build outputs)
+          const u = new URL(url)
+          filename = u.pathname.split('/').pop() || filename
+        } catch {}
+        localImages.push(url)
+        const nameNoExt = filename.replace(/\.[^.]+$/, '')
+        // derive base by stripping -<size> suffix if present
+        const base = nameNoExt.replace(/-\d{2,4}$/, '')
+        const ext = (filename.match(/\.(jpg|jpeg|png|webp|avif)$/i) || [])[1] || 'jpg'
+        if (!localVariants[base]) localVariants[base] = {}
+        const map = localVariants[base]!
+        const key = ext === 'avif' ? 'avif' : ext === 'webp' ? 'webp' : 'jpg'
+        if (!map[key]) map[key] = []
+        map[key]!.push(url)
+      } catch (e) {
+        // ignore
+      }
+    }
   } else {
     // Fallback: explicit expected filenames (will 404 if missing)
     const names = ['carousel-01.jpg','carousel-02.jpg','carousel-03.jpg','carousel-04.jpg','carousel-05.jpg','carousel-06.jpg']
     localImages = names.map(n => {
       try { return new URL(`../assets/${n}`, import.meta.url).href } catch { return null }
     }).filter(Boolean) as string[]
+    // no variants in fallback mode
   }
 } catch (e) {
   localImages = []
@@ -60,18 +92,55 @@ const fallbackImages = [
   'https://dm-a.cl/wp-content/uploads/2011/09/imagen-3-1024x576.jpg'
 ]
 
-const initialImages = localImages.length > 0 ? localImages : fallbackImages
+const initialImages = (localImages && localImages.filter(Boolean).length > 0) ? localImages.filter(Boolean) : fallbackImages
 
 export default function MosaicGallery(): ReactElement {
   const [index, setIndex] = useState(0)
   const [prevSrc, setPrevSrc] = useState<string | null>(null)
-  const [animating, setAnimating] = useState(false)
+  const [animating, setAnimating] = useState<'idle' | 'fading-out' | 'fading-in'>('idle')
+  const [pendingIndex, setPendingIndex] = useState<number | null>(null)
   const [paused, setPaused] = useState(false)
   const [imagesState, setImagesState] = useState<string[]>(initialImages)
   const images = imagesState
   const total = images.length
-  const DURATION = 800 // ms fade duration
+  const DURATION_OUT = 2600 // ms fade-out duration (slower)
+  const DURATION_IN = 1600 // ms fade-in duration
+  const OVERLAP_START = Math.round(DURATION_OUT * 0.45) // start fade-in while fading-out
   const AUTOPLAY = 4000 // ms
+
+  // Preload images and their detected variants into browser memory to avoid re-request on slide change.
+  useEffect(() => {
+    const toPreload = new Set<string>()
+    // add current list
+    images.forEach(i => toPreload.add(i))
+    // if we detected variants earlier, add them too
+    try {
+      for (const key of Object.keys(localVariants)) {
+        const v = (localVariants as any)[key]
+        if (v.avif) v.avif.forEach((u: string) => toPreload.add(u))
+        if (v.webp) v.webp.forEach((u: string) => toPreload.add(u))
+        if (v.jpg) v.jpg.forEach((u: string) => toPreload.add(u))
+      }
+    } catch (e) {
+      // ignore
+    }
+
+    // also include remote fallback set when no local images
+    if (toPreload.size === 0) fallbackImages.forEach(u => toPreload.add(u))
+
+    // limit preloads to avoid saturating network
+    const MAX = 30
+    let count = 0
+    for (const url of toPreload) {
+      if (count++ >= MAX) break
+      try {
+        const img = new Image()
+        img.src = url
+      } catch (e) {
+        // ignore
+      }
+    }
+  }, [images])
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -90,20 +159,27 @@ export default function MosaicGallery(): ReactElement {
 
   function changeIndex(newIndex: number) {
     if (newIndex === index) return
-    const oldIndex = index
-    setPrevSrc(images[oldIndex])
-    setIndex(newIndex)
-    // trigger CSS animation on next frame
-    requestAnimationFrame(() => {
-      setAnimating(true)
+    // start by capturing the current image as the layer to fade out
+    setPrevSrc(images[index])
+    setPendingIndex(newIndex)
+    // begin fade-out of current image
+    setAnimating('fading-out')
+
+    // start fade-in after a short overlap so the transition is smooth
+    setTimeout(() => {
+      setIndex(newIndex)
+      setAnimating('fading-in')
+
+      // after fade-in completes, clear animation state and previous src
       setTimeout(() => {
-        setAnimating(false)
+        setAnimating('idle')
         setPrevSrc(null)
-      }, DURATION)
-    })
+        setPendingIndex(null)
+      }, DURATION_IN)
+    }, OVERLAP_START)
   }
 
-  function renderPictureFor(src: string, alt: string, key: number, role?: 'prev' | 'current') {
+  function renderPictureFor(src: string | null, alt: string, key: Key, role?: 'prev' | 'current') {
     // If local images were bundled, `localModulesMap` contains file variants keyed by base name
     // We built `localMap` earlier when importing; reuse import.meta.globEager map if present
     // Build base name (without extension) from src when local; for remote fall back to simple img
@@ -119,26 +195,54 @@ export default function MosaicGallery(): ReactElement {
     if (animating && role === 'current') classes.push('fade-in')
     if (animating && role === 'prev') classes.push('fade-out')
 
+    if (!src) {
+      // usar imagen local conocida como fallback en lugar de renderizar 'undefined'
+      src = fallbackImg
+      alt = alt || 'Imagen'
+    }
+
     if (isLocal) {
-      // try to derive webp variant by replacing extension with .webp
-      const webp = src.replace(/\.[^.]+$/, '.webp')
-      return (
-        <picture key={key}>
-          {/* use webp when available locally */}
-          <source srcSet={webp} type="image/webp" />
-          <img
-            src={src}
-            alt={alt}
-            className={classes.join(' ')}
-            loading={role === 'current' ? 'eager' : 'lazy'}
-            onError={() => {
-              // remove failing image from carousel
-              setImagesState(prev => prev.filter(p => p !== src))
-            }}
-            style={{ zIndex: 1 }}
-          />
-        </picture>
-      )
+      // attempt to use generated variants (avif/webp/jpg) if available
+      try {
+        const filename = src.split('/').pop() || ''
+        const nameNoExt = filename.replace(/\.[^.]+$/, '')
+        const base = nameNoExt.replace(/-\d{2,4}$/, '')
+        const variants = (localVariants as any)[base]
+        if (variants) {
+          // build srcsets: try avif, webp, then jpg
+          const buildSrcset = (arr?: string[]) => {
+            if (!arr || !arr.length) return null
+            return arr.map(u => {
+              const m = (u.split('/').pop() || '').match(/-(\d{2,4})\./)
+              return m ? `${u} ${m[1]}w` : `${u}`
+            }).join(', ')
+          }
+
+          const avifSrcset = buildSrcset(variants.avif)
+          const webpSrcset = buildSrcset(variants.webp)
+          const jpgSrcset = buildSrcset(variants.jpg)
+
+          return (
+            <picture key={key}>
+              {avifSrcset && <source type="image/avif" srcSet={avifSrcset} />}
+              {webpSrcset && <source type="image/webp" srcSet={webpSrcset} />}
+              {/* fallback JPGs */}
+              <img
+                src={src}
+                srcSet={jpgSrcset || undefined}
+                sizes="100vw"
+                alt={alt}
+                className={classes.join(' ')}
+                loading={role === 'current' ? 'eager' : 'lazy'}
+                onError={() => setImagesState(prev => prev.filter(p => p !== src))}
+                style={{ zIndex: role === 'prev' ? 0 : 1 }}
+              />
+            </picture>
+          )
+        }
+      } catch (e) {
+        // fall back to simple img
+      }
     }
 
     // remote fallback: just an img (could be enhanced to point to provider srcset later)
@@ -150,7 +254,7 @@ export default function MosaicGallery(): ReactElement {
         className={classes.join(' ')}
         loading={role === 'current' ? 'eager' : 'lazy'}
         onError={() => setImagesState(prev => prev.filter(p => p !== src))}
-        style={{ zIndex: 1 }}
+        style={{ zIndex: role === 'prev' ? 0 : 1 }}
       />
     )
   }
@@ -173,8 +277,32 @@ export default function MosaicGallery(): ReactElement {
         <button className="carousel-prev" aria-label="Anterior" onClick={() => changeIndex((index - 1 + total) % total)}>‹</button>
 
         <div className="carousel-viewport">
-          {/* current image only (previous image layer removed to avoid visual artifacts) */}
-          {typeof images[index] === 'string' ? renderPictureFor(images[index], `Galería ${index + 1}`, index, 'current') : null}
+          {/* previous layer (for crossfade) */}
+          {prevSrc ? (
+            <div
+              key={`layer-prev-${index}`}
+              className={`carousel-layer prev ${animating === 'fading-out' ? 'fade-out' : ''}`}
+              style={{ backgroundImage: `url(${prevSrc})`, zIndex: 0 }}
+              aria-hidden
+            />
+          ) : null}
+
+          {/* current layer: use pendingIndex when set (next image) so it can fade-in after fade-out) */}
+          {(() => {
+            const currentSrc = pendingIndex !== null ? images[pendingIndex] : images[index]
+            if (!currentSrc) return null
+            const currentClass = `carousel-layer current ${animating === 'fading-in' ? 'fade-in' : animating === 'idle' ? 'active' : ''}`
+            const ariaLabel = pendingIndex !== null ? `Galería ${pendingIndex + 1}` : `Galería ${index + 1}`
+            return (
+              <div
+                key={`layer-current-${pendingIndex !== null ? pendingIndex : index}`}
+                className={currentClass}
+                style={{ backgroundImage: `url(${currentSrc})`, zIndex: 1 }}
+                role="img"
+                aria-label={ariaLabel}
+              />
+            )
+          })()}
         </div>
 
         <button className="carousel-next" aria-label="Siguiente" onClick={() => changeIndex((index + 1) % total)}>›</button>

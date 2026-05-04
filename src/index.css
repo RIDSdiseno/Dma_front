@@ -178,12 +178,21 @@ body{background:var(--bg)}
 .carousel-viewport picture{position:absolute;inset:0;width:100%;height:100%}
 .carousel-viewport img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .carousel-viewport::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0.28), rgba(0,0,0,0.18));z-index:2;pointer-events:none}
-.carousel-viewport .carousel-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1;opacity:0;transform:scale(1.04);transition:opacity 800ms ease, transform 900ms ease}
+.carousel-viewport .carousel-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1;opacity:0;transform:scale(1);transition:opacity 1600ms cubic-bezier(.2,.8,.2,1), transform 1600ms cubic-bezier(.2,.8,.2,1);image-rendering:auto}
 .carousel-image.prev{opacity:0}
 .carousel-image.current{opacity:0}
-.carousel-image.fade-in{opacity:1;transform:scale(1);transition:opacity 800ms ease, transform 900ms ease}
-.carousel-image.fade-out{opacity:0;transform:scale(0.98);transition:opacity 800ms ease, transform 900ms ease}
-.carousel-image.active{opacity:1;transform:scale(1)}
+.carousel-image.fade-in{opacity:1;transform:scale(1.03);transition:opacity 1600ms cubic-bezier(.2,.8,.2,1), transform 1600ms cubic-bezier(.2,.8,.2,1)}
+.carousel-image.fade-out{opacity:0;transform:scale(0.995);transition:opacity 1600ms cubic-bezier(.2,.8,.2,1), transform 1600ms cubic-bezier(.2,.8,.2,1)}
+.carousel-image.active{opacity:1;transform:scale(1.03);will-change:opacity,transform}
+
+/* Background-layer based carousel (simpler crossfade) */
+.carousel-layer{position:absolute;inset:0;background-size:cover;background-position:center center;background-repeat:no-repeat;opacity:0;transform:scale(1);}
+.carousel-layer.active{opacity:1;transform:scale(1.03);transition:opacity 1600ms cubic-bezier(.2,.8,.2,1), transform 1600ms cubic-bezier(.2,.8,.2,1)}
+.carousel-layer.fade-in{opacity:1;transform:scale(1.03);transition:opacity 1600ms cubic-bezier(.2,.8,.2,1), transform 1600ms cubic-bezier(.2,.8,.2,1)}
+.carousel-layer.fade-out{opacity:0;transform:scale(0.995);transition:opacity 2600ms cubic-bezier(.15,.85,.15,1), transform 2600ms cubic-bezier(.15,.85,.15,1)}
+
+/* Ensure images keep focal center and avoid fractional pixel blur */
+.carousel-viewport img{object-position:center center;backface-visibility:hidden;transform:translateZ(0)}
 .carousel-prev,.carousel-next{background:rgba(2,6,23,0.6);border:0;color:#fff;font-size:40px;width:64px;height:64px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 12px 40px rgba(0,0,0,0.5);position:absolute;top:50%;transform:translateY(-50%);z-index:3}
 .carousel-prev{left:18px}
 .carousel-next{right:18px}
@@ -418,6 +427,10 @@ code {
 .hero-inner h1 .char{display:inline-block;opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.9,.2,1),transform .9s cubic-bezier(.2,.9,.2,1)}
 .hero-inner h1.reveal.animated .char{opacity:1;transform:none}
 
+/* Remove any decorative pseudo-elements inside the Nosotros reveal block
+  (prevents stray small overlay squares appearing over the image) */
+#nosotros .reveal::before, #nosotros .reveal::after { display: none !important; content: none !important }
+
 /* WhatsApp FAB fallback for small viewports (slightly larger on mobile) */
 /* WhatsApp FAB visual styles (refined) */
 .whatsapp-fab{
@@ -436,11 +449,13 @@ code {
   overflow:visible;
 }
 .whatsapp-fab:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(16,24,40,0.28)}
-.whatsapp-fab svg{width:30px;height:30px;display:block;line-height:0}
+.whatsapp-fab{box-sizing:border-box}
+.whatsapp-fab svg{width:60%;height:60%;display:block;line-height:0;vertical-align:middle}
+.whatsapp-fab svg path{display:block;fill:#fff}
 
 @media (max-width:600px){
   .whatsapp-fab{right:calc(max(12px, env(safe-area-inset-right)) + 10px);bottom:calc(max(12px, env(safe-area-inset-bottom)) + 10px);width:60px;height:60px}
-  .whatsapp-fab svg{width:26px;height:26px}
+  .whatsapp-fab svg{width:60%;height:60%}
 }
 
 /* subtle halo */
