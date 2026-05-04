@@ -5,7 +5,8 @@ import QuinchoConfigurator from './components/QuinchoConfigurator'
 import ConfiguratorModal from './components/ConfiguratorModal'
 import ProjectCard from './components/ProjectCard'
 import Services from './components/Services'
-import MosaicGallery from './components/MosaicGallery'
+import { Suspense, lazy } from 'react'
+const MosaicGallery = lazy(() => import('./components/MosaicGallery'))
 import Team from './components/Team'
 import ContactForm from './components/ContactForm'
 import projects from './data/projects'
@@ -57,7 +58,9 @@ export default function App() {
         </div>
       </section>
 
-      <MosaicGallery />
+      <Suspense fallback={null}>
+        <MosaicGallery />
+      </Suspense>
 
       <Team />
 
