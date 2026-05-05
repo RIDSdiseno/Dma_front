@@ -8,12 +8,13 @@ import Services from './components/Services'
 import { Suspense, lazy } from 'react'
 const MosaicGallery = lazy(() => import('./components/MosaicGallery'))
 import Team from './components/Team'
-import ContactForm from './components/ContactForm'
+import ContactCallout from './components/ContactCallout'
 import projects from './data/projects'
 import ProjectModal from './components/ProjectModal'
 import type { Project } from './data/projects'
 import { useState } from 'react'
 import SectionTitle from './components/SectionTitle'
+import FeaturedProjects from './components/FeaturedProjects'
 
 export default function App() {
   useEffect(() => {
@@ -29,6 +30,7 @@ export default function App() {
   const [qcArea, setQcArea] = useState<number>(10)
   const [qcPkg, setQcPkg] = useState<'Starter'|'Pro'|'Full'>('Starter')
   const [showQcModal, setShowQcModal] = useState(false)
+  const [showInfoModal, setShowInfoModal] = useState(false)
 
   return (
     <Layout>
@@ -38,25 +40,17 @@ export default function App() {
         <QuinchoConfigurator area={qcArea} setArea={setQcArea} pkg={qcPkg} setPkg={setQcPkg} />
       </ConfiguratorModal>
 
+      <ConfiguratorModal open={showInfoModal} onClose={() => setShowInfoModal(false)} title="En desarrollo">
+        <div style={{padding:16}}>
+          <p>Estamos trabajando en ese apartado de la página. Pronto estará disponible — gracias por tu paciencia.</p>
+        </div>
+      </ConfiguratorModal>
+
       {/* Proyectos removed as requested - featured projects shown below */}
 
       <Services />
 
-      <section id="featured" className="container featured-projects">
-        <SectionTitle>Proyectos Destacados</SectionTitle>
-        <div className="featured-grid">
-          {projects.map((p) => (
-            <figure key={p.id} className="featured-item" role="button" tabIndex={0} onClick={() => { setSelected(p); setModalOpen(true) }} onKeyDown={(e) => { if (e.key === 'Enter') { setSelected(p); setModalOpen(true) } }}>
-              <img src={p.image} alt={p.title} />
-              <figcaption>
-                <h2>{p.title}</h2>
-                {p.excerpt && <p className="muted">{p.excerpt}</p>}
-                <button className="link-btn" onClick={(e) => { e.stopPropagation(); setSelected(p); setModalOpen(true) }}>Ver proyecto</button>
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-      </section>
+      <FeaturedProjects projects={projects} onOpen={(p) => { setSelected(p); setModalOpen(true) }} />
 
       <Suspense fallback={null}>
         <MosaicGallery />
@@ -67,20 +61,7 @@ export default function App() {
       <ProjectModal project={selected} open={modalOpen} onClose={() => setModalOpen(false)} />
 
       <section id="contact" className="container contact">
-        <div className="content">
-          <SectionTitle>Contacto</SectionTitle>
-          <div className="contact-grid">
-            <div className="contact-card">
-              <div className="contact-card-left">
-                <p className="contact-line"><strong>Teléfono:</strong> +56 9 9078 4222 • +56 9 9299 8255</p>
-                <p className="contact-line"><strong>Email:</strong> contacto@dm-a.cl</p>
-                <p className="contact-line"><strong>WhatsApp:</strong> +56 9 9299 8255</p>
-                <p className="contact-line"><strong>Dirección:</strong> La Concepción 65, Of. 1001, Providencia, Chile</p>
-              </div>
-            </div>
-            <ContactForm />
-          </div>
-        </div>
+        <ContactCallout onDesignClick={() => { console.log('ContactCallout: abrir modal (info)'); setShowInfoModal(true) }} />
       </section>
     </Layout>
   )

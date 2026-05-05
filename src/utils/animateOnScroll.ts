@@ -21,7 +21,7 @@ export function initAnimations() {
             const span = document.createElement('span')
             span.className = 'char'
             span.textContent = ch
-            span.style.transitionDelay = `${(i + 1 + wi * 4) * 0.04}s`
+            span.style.transitionDelay = `${(i + 1 + wi * 3) * 0.03}s`
             wordSpan.appendChild(span)
           })
           lineEl.appendChild(wordSpan)
@@ -38,7 +38,7 @@ export function initAnimations() {
         const span = document.createElement('span')
         span.className = 'char'
         span.textContent = ch === ' ' ? ' ' : ch
-        span.style.transitionDelay = `${(i + 1) * 0.04}s`
+        span.style.transitionDelay = `${(i + 1) * 0.03}s`
         frag.appendChild(span)
       })
       h.appendChild(frag)

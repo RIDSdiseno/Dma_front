@@ -8,8 +8,8 @@ export const heroWrapper: CSSProperties = {
   alignItems: 'center',
   width: '100vw',
   marginLeft: 'calc(50% - 50vw)',
-  paddingTop: '96px',
-  minHeight: 'calc(100vh - 96px)',
+  paddingTop: '72px',
+  minHeight: '80vh',
   paddingBottom: 0,
 }
 
@@ -20,17 +20,28 @@ export const heroLeft: CSSProperties = {
   paddingLeft: '6vw',
   position: 'relative',
   zIndex: 2,
-  width: '48%',
+  width: '100%',
+  marginLeft: '0',
+  position: 'absolute',
+  left: 0,
+  top: 0,
+  bottom: 0,
+  display: 'flex',
+  alignItems: 'center',
+  paddingRight: '6vw',
   color: '#fff',
 }
 
 export const heroRight: CSSProperties = {
-  backgroundImage: `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.35)), url(${heroImg})`,
+  backgroundImage: `linear-gradient(180deg, rgba(2,6,23,0.35), rgba(2,6,23,0.15)), url(${heroImg})`,
   backgroundSize: 'cover',
-  backgroundPosition: 'center right',
+  backgroundPosition: 'center left',
   backgroundRepeat: 'no-repeat',
   position: 'absolute',
-  inset: 0,
+  left: 0,
+  top: 0,
+  bottom: 0,
+  width: '100%',
   borderRadius: 0,
   minHeight: '100vh',
   zIndex: 0,
@@ -38,7 +49,7 @@ export const heroRight: CSSProperties = {
 
 export const heroTitle: CSSProperties = {
   fontFamily: "'Playfair Display', serif",
-  fontSize: 'clamp(2.2rem, 5.2vw, 4.8rem)',
+  fontSize: 'clamp(2.2rem, 6.8vw, 5.6rem)',
   lineHeight: 1,
   margin: 0,
   maxWidth: 820,
@@ -46,6 +57,7 @@ export const heroTitle: CSSProperties = {
   wordBreak: 'normal',
   color: '#fff',
   fontWeight: 700,
+  textShadow: '0 8px 26px rgba(0,0,0,0.6)'
 }
 
 export const heroLead: CSSProperties = {

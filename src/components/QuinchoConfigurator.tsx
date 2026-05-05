@@ -79,7 +79,7 @@ export default function QuinchoConfigurator({ area, setArea, pkg, setPkg }: Prop
           <div className="pkg-uf">{uf} <span className="uf-label">UF</span></div>
           <div className="pkg-clp">${clp.toLocaleString('es-CL')} CLP</div>
 
-          <button className="btn large request-btn">Solicitar este paquete</button>
+          <button className="btn primary large request-btn">Solicitar este paquete</button>
 
           <div className="pkg-note muted">
             {extra > 0 ? (
