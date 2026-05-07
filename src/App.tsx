@@ -32,9 +32,14 @@ export default function App() {
   const [showQcModal, setShowQcModal] = useState(false)
   const [showInfoModal, setShowInfoModal] = useState(false)
 
+  const scrollToContact = () => {
+    const el = document.getElementById('contact')
+    if (el) el.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
     <Layout>
-      <Hero onDesignClick={() => setShowQcModal(true)} />
+      <Hero onDesignClick={scrollToContact} />
 
       <ConfiguratorModal open={showQcModal} onClose={() => setShowQcModal(false)} title="Diseña tu Quincho">
         <QuinchoConfigurator area={qcArea} setArea={setQcArea} pkg={qcPkg} setPkg={setQcPkg} />
@@ -61,7 +66,7 @@ export default function App() {
       <ProjectModal project={selected} open={modalOpen} onClose={() => setModalOpen(false)} />
 
       <section id="contact" className="container contact">
-        <ContactCallout onDesignClick={() => { console.log('ContactCallout: abrir modal (info)'); setShowInfoModal(true) }} />
+        <ContactCallout onDesignClick={() => { console.log('ContactCallout: abrir configurador'); setShowQcModal(true) }} />
       </section>
     </Layout>
   )

@@ -1,0 +1,83 @@
+:root {
+  --color-terracota: #A84F3D;
+  --color-deep-black: #0B0B0B;
+  --color-warm-gray: #6B6159;
+  --font-sans: Arial, Helvetica, sans-serif;
+  --font-serif: Georgia, 'Times New Roman', Times, serif;
+}
+
+/* Headings */
+h1.proyecto-h1, h1 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  /* 36-48pt -> 48-64px */
+  font-size: clamp(48px, 6vw, 64px);
+  line-height: 1.05;
+  color: inherit; /* allow parent/background contexts (e.g., hero with white text) */
+  margin: 0 0 0.5em 0;
+}
+
+h2.proyecto-h2, h2 {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  /* 24-32pt -> 32-43px */
+  font-size: clamp(32px, 4.5vw, 43px);
+  line-height: 1.15;
+  color: inherit;
+  margin: 0 0 0.5em 0;
+}
+
+h3.proyecto-h3, h3 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  /* 18-22pt -> 24-29px */
+  font-size: clamp(24px, 3.2vw, 30px);
+  line-height: 1.15;
+  color: inherit;
+  margin: 0 0 0.4em 0;
+}
+
+/* Body text */
+body, p, .proyecto-body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  /* default between 11-14pt -> 14.6-18.6px, use 16px base */
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text, var(--color-deep-black));
+}
+
+/* Caption / leyenda */
+.proyecto-caption, small, figcaption {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  /* 9-11pt -> 12-14.6px */
+  font-size: 13px;
+  line-height: 1.4;
+  color: inherit; /* allow context to set caption color; use .proyecto-caption--warm to force warm gray */
+}
+
+/* Utility modifiers */
+.text-terracota { color: var(--color-terracota); }
+.text-deep-black { color: var(--color-deep-black); }
+.text-warm-gray { color: var(--color-warm-gray); }
+
+/* Optional explicit caption warm class */
+.proyecto-caption--warm { color: var(--color-warm-gray); }
+
+/* Example usage helpers for the exact strings the user provided */
+.brand-h1 { font-family: var(--font-sans); font-weight:700; font-size: clamp(48px,6vw,64px); }
+.brand-h2 { font-family: var(--font-serif); font-style:italic; font-size: clamp(32px,4.5vw,43px); }
+.brand-h3 { font-family: var(--font-sans); font-weight:700; font-size: clamp(24px,3.2vw,30px); }
+
+/* Utility to keep selected words together (prevent line breaks) */
+.keep-together {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* Allow wrapping on very small screens to avoid overflow */
+@media (max-width: 420px) {
+  .keep-together { white-space: normal; }
+}

@@ -38,12 +38,12 @@ export default function Navbar(): ReactElement {
           <nav className="nav" style={{gridColumn: '2', justifySelf: 'center'}} aria-hidden={open}>
             <a href="#hero">Inicio</a>
             <a href="#services">Servicios</a>
-            <a href="#projects">Proyectos</a>
+            <a href="#featured">Proyectos</a>
             <a href="#nosotros">Nosotros</a>
           </nav>
 
           <div className="cta" style={{gridColumn: '3', justifySelf: 'end'}}>
-            <a className="btn small" href="#contact">Contacto</a>
+            <a className="btn small" href="#contact">Solicitar Presupuesto</a>
             <button className="mobile-toggle" aria-label="Abrir menú" onClick={() => setOpen(true)} aria-expanded={open}>
               <span className="hamburger" />
             </button>
@@ -59,9 +59,9 @@ export default function Navbar(): ReactElement {
             <nav className="mobile-nav-list">
               <a href="#hero" onClick={close}>Inicio</a>
               <a href="#services" onClick={close}>Servicios</a>
-              <a href="#projects" onClick={close}>Proyectos</a>
+              <a href="#featured" onClick={close}>Proyectos</a>
               <a href="#nosotros" onClick={close}>Nosotros</a>
-              <a className="btn primary" href="#contact" onClick={close}>Contacto</a>
+              <a className="btn primary" href="#contact" onClick={close}>Solicitar Presupuesto</a>
             </nav>
           </div>
         </div>

@@ -17,6 +17,33 @@ export default function ProjectModal({ project, open, onClose }: Props): ReactEl
   // Normalize images array even if project is null to keep hooks order stable
   const imgs: string[] = project && project.images && project.images.length ? project.images : project && project.image ? [project.image] : []
 
+  // Resolve image paths to safe URLs that work with Vite's dev server bundling.
+  // Accepts absolute http(s), root paths, or `src/...` module paths from project data.
+  const PLACEHOLDER = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><rect width="100%" height="100%" fill="%230b0b0b"/><text x="50%" y="50%" fill="%23aaa" font-size="20" font-family="Arial" dominant-baseline="middle" text-anchor="middle">Imagen no disponible</text></svg>'
+
+  function resolveImgPath(s: string): string {
+    if (!s) return PLACEHOLDER
+    if (/^https?:\/\//.test(s)) return s
+    if (s.startsWith('/')) return s
+    // handle module-style paths like 'src/assets/foo.jpg'
+    if (s.startsWith('src/')) {
+      try {
+        return new URL(`../${s.replace(/^src\//, '')}`, import.meta.url).href
+      } catch (err) {
+        return s
+      }
+    }
+    // handle relative paths
+    if (s.startsWith('./') || s.startsWith('../')) {
+      try { return new URL(s, import.meta.url).href } catch (err) { return s }
+    }
+    // fallback: try to resolve by filename inside src/assets
+    const name = s.split('/').pop() || s
+    try { return new URL(`../assets/${name}`, import.meta.url).href } catch (err) { return s }
+  }
+
+  const resolvedImgs = imgs.map(resolveImgPath)
+
   // When open becomes true, mount modal
   useEffect(() => {
     if (open) {
@@ -90,7 +117,11 @@ export default function ProjectModal({ project, open, onClose }: Props): ReactEl
             </button>
 
             <div className="pm-image-wrap">
-              <img src={imgs[index]} alt={`${project.title} ${index + 1}`} />
+              <img
+                src={resolvedImgs[index] || PLACEHOLDER}
+                alt={`${project.title} ${index + 1}`}
+                onError={(e) => { (e.currentTarget as HTMLImageElement).src = PLACEHOLDER }}
+              />
             </div>
 
             <button
@@ -120,14 +151,14 @@ export default function ProjectModal({ project, open, onClose }: Props): ReactEl
         </div>
         <div className="pm-thumbs">
           <div className="pm-thumbs-track" style={{ transform: `translateX(${translate}px)` }}>
-            {imgs.map((s, i) => (
+            {resolvedImgs.map((s, i) => (
               <button
                 key={s}
                 className={`pm-thumb ${i === index ? 'active' : ''}`}
                 onClick={() => setIndex(i)}
                 aria-label={`Ir a imagen ${i + 1}`}
               >
-                <img src={s} alt={`thumb ${i + 1}`} />
+                <img src={s} alt={`thumb ${i + 1}`} onError={(e) => { (e.currentTarget as HTMLImageElement).src = PLACEHOLDER }} />
               </button>
             ))}
           </div>

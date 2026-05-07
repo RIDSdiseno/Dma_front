@@ -48,7 +48,11 @@ export default function Team(): ReactElement {
       <div className="content" style={splitStyle}>
         <div style={{ ...leftStyle }}>
           <SectionTitle>Nosotros</SectionTitle>
-          <h2 style={bigTitle}>Somos un estudio de arquitectura</h2>
+          <h2 style={bigTitle}>
+            <span className="h-line">Estudio de</span>
+            <span className="h-line">Arquitectura</span>
+            <span className="h-line">&amp; Diseño</span>
+          </h2>
           <p style={introStyle}>{intro}</p>
 
           {/* Decorative hero image (kept for visual parity with EPV) */}

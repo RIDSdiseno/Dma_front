@@ -19,7 +19,7 @@ export default function ContactCallout({ onDesignClick }: Props): ReactElement {
         </div>
         <div className="callout-actions">
           <a className="btn primary" href={waHref} target="_blank" rel="noreferrer">Chatear por WhatsApp</a>
-          <button type="button" className="btn" onClick={() => { console.log('ContactCallout: click solicitar'); onDesignClick() }}>Solicitar presupuesto</button>
+          <button type="button" className="btn primary" onClick={() => { console.log('ContactCallout: click solicitar'); onDesignClick() }}>Cotiza tu proyecto</button>
         </div>
       </div>
     </div>

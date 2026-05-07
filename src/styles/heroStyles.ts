@@ -6,8 +6,10 @@ export const heroWrapper: CSSProperties = {
   overflow: 'hidden',
   display: 'flex',
   alignItems: 'center',
+  /* make hero full-bleed across viewport using width + negative margins */
   width: '100vw',
-  marginLeft: 'calc(50% - 50vw)',
+  marginLeft: 'calc(-50vw + 50%)',
+  marginRight: 'calc(-50vw + 50%)',
   paddingTop: '72px',
   minHeight: '80vh',
   paddingBottom: 0,
@@ -16,26 +18,26 @@ export const heroWrapper: CSSProperties = {
 export const heroLeft: CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'center',
+  /* position content toward bottom-left so background subject remains visible */
+  justifyContent: 'flex-end',
+  alignItems: 'flex-start',
   paddingLeft: '6vw',
-  position: 'relative',
+  paddingRight: '6vw',
+  position: 'absolute',
   zIndex: 2,
   width: '100%',
-  marginLeft: '0',
-  position: 'absolute',
   left: 0,
   top: 0,
   bottom: 0,
-  display: 'flex',
-  alignItems: 'center',
-  paddingRight: '6vw',
+  textAlign: 'left',
   color: '#fff',
 }
 
 export const heroRight: CSSProperties = {
   backgroundImage: `linear-gradient(180deg, rgba(2,6,23,0.35), rgba(2,6,23,0.15)), url(${heroImg})`,
   backgroundSize: 'cover',
-  backgroundPosition: 'center left',
+  /* center the image so main subject stays visible on different widths */
+  backgroundPosition: 'center center',
   backgroundRepeat: 'no-repeat',
   position: 'absolute',
   left: 0,
@@ -43,16 +45,19 @@ export const heroRight: CSSProperties = {
   bottom: 0,
   width: '100%',
   borderRadius: 0,
-  minHeight: '100vh',
+  /* let the wrapper control height to avoid cropping mismatch */
+  minHeight: '100%',
   zIndex: 0,
 }
 
 export const heroTitle: CSSProperties = {
   fontFamily: "'Playfair Display', serif",
-  fontSize: 'clamp(2.2rem, 6.8vw, 5.6rem)',
-  lineHeight: 1,
+  /* reduced sizes so background image is more visible */
+  fontSize: 'clamp(1.8rem, 4.8vw, 4rem)',
+  lineHeight: 1.02,
+  letterSpacing: '-0.06em',
   margin: 0,
-  maxWidth: 820,
+  maxWidth: 640,
   overflowWrap: 'break-word',
   wordBreak: 'normal',
   color: '#fff',
@@ -64,8 +69,9 @@ export const heroLead: CSSProperties = {
   marginTop: 12,
   fontFamily: "'Inter', sans-serif",
   color: 'rgba(255,255,255,0.85)',
-  fontSize: 'clamp(1rem, 2.2vw, 1.125rem)',
-  maxWidth: 640,
+  /* reduced subtitle size so background is more visible */
+  fontSize: 'clamp(0.85rem, 1.6vw, 1rem)',
+  maxWidth: 560,
 }
 
 export const heroCTA: CSSProperties = {

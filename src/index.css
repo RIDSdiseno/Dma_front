@@ -1,14 +1,16 @@
 :root{
-  --bg: #000000;
-  --surface: #0b0b0b;
-  --text: #ffffff;
-  --muted: #bfb8a6;
-  --accent: #d4af37; /* oro */
-  --brand-accent: #b8860b; /* oro oscuro */
+  /* Paleta solicitada */
+  --bg: #faeedb; /* Crema - fondo principal */
+  --surface: #cdb08f; /* Beige Arena - fondos secundarios */
+  --text: #222221; /* Negro Profundo - texto primario */
+  --muted: #776b5e; /* Gris Cálido - textos secundarios */
+  --accent: #d66129; /* Terracota - color de acento */
+  --brand-accent: #b84e1f; /* Terracota oscuro - variante de marca */
   --primary: var(--accent);
+  --header-height: 72px; /* altura estimada del header para evitar solapamientos */
   --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
   --font-heading: 'Playfair Display', 'Montserrat', serif;
-  --border: rgba(255,255,255,0.06);
+  --border: rgba(34,34,33,0.06);
 }
 html,body,#root{height:100%;margin:0}
 html,body{overflow-x:hidden}
@@ -51,11 +53,24 @@ h1,h2{margin:0 0 8px 0;font-family:var(--font-heading)}
 /* Hero */
 .hero{position:relative;overflow:hidden;min-height:60vh}
 .hero-bg{position:absolute;left:0;top:0;right:0;bottom:0;width:100%;height:100%;background-size:cover;background-position:center center;filter:brightness(0.9)}
-.hero-inner{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;color:#fff;padding:48px 20px;text-align:left}
+.hero-inner{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;color:#fff;padding:calc(var(--header-height) + 12px) 20px 48px;text-align:left}
 .hero-inner::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(2,6,23,0.55), rgba(2,6,23,0.35));z-index:1}
 .hero-inner *{position:relative;z-index:2}
-.hero-inner h1{font-size:clamp(34px,8vw,68px);margin-bottom:12px;line-height:1.02;color:#fff;text-shadow:0 8px 26px rgba(0,0,0,0.65)}
-.hero-inner p{color:rgba(255,255,255,0.95);text-shadow:0 6px 18px rgba(0,0,0,0.45);max-width:640}
+.hero-inner h1{font-size:clamp(28px,6.5vw,56px);margin-bottom:12px;line-height:1.02;color:#fff;text-shadow:0 8px 26px rgba(0,0,0,0.65)}
+.hero-inner p{color:rgba(255,255,255,0.95);text-shadow:0 6px 18px rgba(0,0,0,0.45);max-width:560}
+
+/* Prevent heading overflow and force sensible wrapping on narrow screens */
+.hero-inner h1{max-width:92vw;overflow-wrap:break-word;word-break:break-word;hyphens:auto;margin-left:auto;margin-right:auto}
+.hero-inner h1 .h-line{
+  display: inline;
+  white-space: normal;
+  /* If you add padding/background to .h-line, ensure each wrapped fragment keeps it */
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* Ensure no horizontal scrollbar from hero */
+.hero{overflow-x:hidden}
 .hero-inner *{color:inherit}
 .btn{display:inline-block;margin-top:12px;padding:12px 20px;background:var(--primary);color:#fff;border-radius:10px;text-decoration:none;border:2px solid rgba(255,255,255,0.06)}
 .btn.small{background:var(--accent);}
@@ -70,7 +85,7 @@ h1,h2{margin:0 0 8px 0;font-family:var(--font-heading)}
 
 @media (max-width:700px){
   .hero-cta{padding:10px 14px;font-size:0.95rem;border-radius:10px}
-  .hero-inner{padding:28px 16px}
+  .hero-inner{padding:calc(var(--header-height) + 8px) 16px 28px;text-align:center}
   .hero-inner .btn{display:inline-block}
 }
 
@@ -177,8 +192,8 @@ h1,h2{margin:0 0 8px 0;font-family:var(--font-heading)}
 
   /* Hero typography responsive and padded */
   .hero-inner{left:0;right:0;padding:28px 18px;text-align:center}
-  .hero-inner h1{font-size:clamp(28px,8vw,40px);line-height:1.02;margin-bottom:10px}
-  .hero-inner p{font-size:0.98rem;padding:0 6px}
+  .hero-inner h1{font-size:clamp(24px,6.5vw,42px);line-height:1.02;margin-bottom:10px}
+  .hero-inner p{font-size:0.92rem;padding:0 6px}
 
   /* Featured collage items: stack cleanly */
   .featured-grid{padding:0 12px}
@@ -198,18 +213,36 @@ h1,h2{margin:0 0 8px 0;font-family:var(--font-heading)}
 @media (max-width:900px){
   .hero{display:block}
   .hero-bg{position:relative !important;width:100% !important;height:56vh !important;min-height:320px;background-position:center center !important}
-  .hero-inner{position:relative;left:auto;right:auto;top:auto;transform:none;padding:28px 18px;text-align:left}
+  .hero-inner{position:relative;left:auto;right:auto;top:auto;transform:none;padding:calc(var(--header-height) + 8px) 18px 28px;text-align:left}
   .hero-inner.content{max-width:960px;margin:0 auto}
   .hero-inner h1{font-size:clamp(34px,8vw,48px);line-height:1.02}
-  .hero-inner p{font-size:1rem}
-  .hero-inner .h-line{display:block}
+  .hero-inner p{font-size:0.95rem}
+  .hero-inner .h-line{
+    display: inline;
+    white-space: normal;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
 }
 
 @media (max-width:420px){
   .hero-bg{height:48vh}
-  .hero-inner h1{font-size:clamp(28px,9vw,38px)}
-  .hero-inner{padding:22px}
+  .hero-inner h1{font-size:clamp(22px,8.5vw,34px)}
+  .hero-inner{padding:calc(var(--header-height) + 6px) 12px 20px}
   .hero-inner .h-line{display:block}
+
+}
+
+/* Make hero heading smaller on very small screens to avoid overflow */
+@media (max-width:380px){
+  .hero-inner h1{font-size:20px !important;line-height:1.03 !important}
+  .hero-inner h1 span{display:block}
+  .hero-inner p{font-size:0.95rem}
+}
+
+/* Also reduce container H2 on very small screens */
+@media (max-width:420px){
+  .container h2{font-size:22px}
 }
 
 /* Smooth entrance for mobile menu */
@@ -376,6 +409,68 @@ body{background:var(--bg)}
 .pkg-clp{color:var(--muted);margin-bottom:18px}
 .request-btn{width:100%;background:#0b0b0b;color:#fff;padding:14px;border-radius:12px;border:0}
 .pkg-note{margin-top:12px;font-size:0.95rem}
+
+/* Modal-specific responsive adjustments for the configurator */
+.pm-dialog .two-col{grid-template-columns:1fr 420px;gap:28px}
+
+/* Modal: centered, constrained and scrollable content so it remains visible */
+.pm-overlay{position:fixed;inset:0;background:rgba(1,1,1,0.64);display:flex;align-items:center;justify-content:center;padding:12px;z-index:1300}
+.pm-dialog{position:relative;width:100%;max-width:820px;box-sizing:border-box;border-radius:12px;overflow:hidden;background:linear-gradient(180deg, rgba(3,3,3,0.96), rgba(6,6,6,0.98));border:1px solid rgba(255,255,255,0.02)}
+.pm-title{margin-top:6px;margin-bottom:10px}
+.pm-body{padding:12px;overflow-y:auto;max-height:calc(100vh - 160px)}
+.pm-close{position:absolute;right:12px;top:12px;background:transparent;border:0;color:var(--muted);font-size:20px;padding:8px;border-radius:8px;cursor:pointer;z-index:20}
+
+/* Tighter layout inside modal */
+.pm-dialog .two-col{grid-template-columns:1fr 380px;gap:18px}
+.pm-dialog .quincho-left h2{font-size:28px}
+.pm-dialog .pkg-uf{font-size:40px}
+.pm-dialog .pkg-clp{font-size:14px}
+.pm-dialog .form-input{padding:10px}
+.pm-dialog .pkg-btn{padding:8px 12px}
+
+/* Ensure select dropdown options are readable inside modal (dark UI -> light options) */
+.pm-dialog .form-input{color:var(--text)}
+.pm-dialog .form-input option{color:#111;background:#fff}
+.pm-dialog .form-input::-ms-expand{filter:invert(1);} /* improve caret visibility in IE/Edge */
+
+@media (max-width:900px){
+  .pm-dialog{max-width:720px}
+  .pm-body{max-height:calc(100vh - 140px)}
+}
+
+@media (max-width:700px){
+  .pm-dialog{max-width:calc(100% - 24px);width:calc(100% - 24px);margin:0}
+  .pm-dialog .two-col{grid-template-columns:1fr;gap:12px}
+  .pm-dialog .quincho-right{padding:14px}
+  .pm-dialog .quincho-left{padding:0}
+  .pm-body{padding:10px;max-height:calc(100vh - 96px)}
+}
+.pm-dialog .quincho-left{padding-right:4px}
+.pm-dialog .quincho-right{padding:22px}
+.pm-dialog .pkg-uf{font-size:48px}
+
+@media (max-width:900px){
+  .pm-dialog{padding:16px}
+  .pm-dialog .two-col{grid-template-columns:1fr;gap:14px}
+  .pm-dialog .quincho-right{order:2}
+  .pm-dialog .quincho-left{order:1}
+  .pm-dialog .pkg-uf{font-size:40px}
+  .pm-dialog .pkg-clp{font-size:0.98rem}
+  .pm-dialog .pkg-buttons{display:flex;flex-direction:row;gap:10px;flex-wrap:wrap}
+  .pm-dialog .pkg-buttons .pkg-btn{flex:1 1 auto;min-width:0}
+  .pm-dialog .request-btn{width:100%}
+  .pm-dialog .quincho-left .form-input{font-size:1rem}
+}
+
+@media (max-width:560px){
+  .pm-dialog{width:100%;height:100vh;max-width:none;border-radius:0;padding:12px;box-shadow:none}
+  .pm-dialog .two-col{grid-template-columns:1fr;gap:12px}
+  .pm-dialog .pkg-buttons{flex-direction:column}
+  .pm-dialog .pkg-buttons .pkg-btn{width:100%;display:block}
+  .pm-dialog .quincho-right .includes-grid{grid-template-columns:1fr}
+  .pm-dialog .quincho-right{padding:14px}
+  .pm-dialog .pkg-uf{font-size:36px}
+}
 
 /* Featured projects (full-bleed stacked) */
 .featured-projects{padding:48px 0}
@@ -575,6 +670,16 @@ code {
 .hero-inner h1 .word{display:inline-block;white-space:normal}
 .hero-inner h1 .char{display:inline-block;opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.9,.2,1),transform .7s cubic-bezier(.2,.9,.2,1)}
 .hero-inner h1.reveal.animated .char{opacity:1;transform:none}
+
+/* Tighten title spacing: remove extra gaps between animated characters */
+.hero-inner h1{letter-spacing:0 !important;word-spacing:0 !important}
+/* Keep .char as inline-block so transforms work, but remove extra margin and rely on slight negative letter-spacing on the container */
+.hero-inner h1 .char{margin-right:0 !important;display:inline-block}
+.hero-inner h1 .word{margin-right:0}
+.hero-inner h1{letter-spacing:-0.04em !important}
+
+/* Additional override: when devtools or layout inspection adds outlines, avoid showing grid-like artifacts by ensuring no decorative pseudo elements */
+.hero-inner h1 *::before, .hero-inner h1 *::after { content: none !important }
 
 /* Remove any decorative pseudo-elements inside the Nosotros reveal block
   (prevents stray small overlay squares appearing over the image) */

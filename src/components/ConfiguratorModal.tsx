@@ -8,7 +8,7 @@ type Props = {
   children: React.ReactNode
 }
 
-export default function ConfiguratorModal({ open, onClose, title, children }: Props): ReactElement | null {
+export default function ConfiguratorModal({ open, onClose, children }: Props): ReactElement | null {
   const dialogRef = useRef<HTMLDivElement | null>(null)
   const previouslyFocused = useRef<HTMLElement | null>(null)
 
@@ -65,12 +65,15 @@ export default function ConfiguratorModal({ open, onClose, title, children }: Pr
 
   if (!open) return null
 
+  // For productized configurator we always surface the commercial title
+  const displayedTitle = 'Diseña tu Proyecto'
+
   return (
-    <div className={`pm-overlay open`} role="dialog" aria-modal="true" aria-label={title || 'Configurador'} onMouseDown={(e) => { if (e.target === e.currentTarget) onClose() }}>
-      <div className="pm-dialog" ref={dialogRef}>
+    <div className={`pm-overlay open`} role="dialog" aria-modal="true" aria-label={displayedTitle} onMouseDown={(e) => { if (e.target === e.currentTarget) onClose() }}>
+      <div className="pm-dialog" ref={dialogRef} style={{maxWidth:980,margin:'18px auto'}}>
         <button className="pm-close" onClick={onClose} aria-label="Cerrar">✕</button>
-        {title && <h2 className="pm-title">{title}</h2>}
-        <div style={{padding:12}}>
+        <h2 className="pm-title" style={{marginTop:6,marginBottom:10}}>{displayedTitle}</h2>
+        <div className="pm-body">
           {children}
         </div>
       </div>

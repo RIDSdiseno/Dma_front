@@ -13,16 +13,11 @@ export default function Hero({ onDesignClick }: Props): ReactElement {
 
       <div className="hero-inner content" style={heroLeft}>
         <h1 style={heroTitle}>
-          <span className="h-line">Estudio de</span>
-          <br />
-          <span className="h-line">Arquitectura</span>
-          <br />
-          <span className="h-line">&amp; Diseño</span>
+          <span className="h-line">Estudio de Arquitectura &amp; Diseño</span>
         </h1>
         <p style={heroLead}>Proyectos residenciales y comerciales con atención al detalle, claridad constructiva y soluciones a medida.</p>
         <div className="hero-ctas" style={{display:'flex',gap:12,marginTop:18}}>
-          <a href="#contact" className="btn primary hero-cta" aria-label="Solicitar Presupuesto">Solicitar Presupuesto</a>
-          <button onClick={onDesignClick} className="btn primary hero-cta" aria-label="Diseña tu Quincho">Diseña tu Quincho</button>
+          <button onClick={onDesignClick} className="btn primary hero-cta" aria-label="Solicitar Presupuesto">Solicitar Presupuesto</button>
         </div>
       </div>
     </section>
