@@ -1,11 +1,18 @@
-import logo from '../assets/logo.png'
+import logo from '../assets/logo2.png'
 import type { ReactElement } from 'react'
 import { useState, useEffect } from 'react'
 
 export default function Navbar(): ReactElement {
   const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
 
   function close() { setOpen(false) }
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   useEffect(() => {
     const prev = document.body.style.overflow
@@ -18,7 +25,7 @@ export default function Navbar(): ReactElement {
   }, [open])
 
   return (
-    <header className="site-header">
+    <header className={`site-header${scrolled ? ' scrolled' : ''}`}>
       <div className="container nav-row">
         <div
           className="content"
@@ -26,12 +33,12 @@ export default function Navbar(): ReactElement {
             display: 'grid',
             gridTemplateColumns: 'auto 1fr auto',
             alignItems: 'center',
-            columnGap: 24,
+            columnGap: 'clamp(8px, 2vw, 24px)',
           }}
         >
           <div style={{gridColumn: '1'}}>
             <div className="brand">
-              <img src={logo} alt="DM-A" className="brand-logo brand-logo--light" />
+              <img src={logo} alt="DM-A" className="brand-logo" />
             </div>
           </div>
 
@@ -43,7 +50,7 @@ export default function Navbar(): ReactElement {
           </nav>
 
           <div className="cta" style={{gridColumn: '3', justifySelf: 'end'}}>
-            <a className="btn small" href="#contact">Solicitar Presupuesto</a>
+            <a className="btn small nav-cta-desktop" href="#contact">Solicitar Presupuesto</a>
             <button className="mobile-toggle" aria-label="Abrir menú" onClick={() => setOpen(true)} aria-expanded={open}>
               <span className="hamburger" />
             </button>

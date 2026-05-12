@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" role="img" aria-label="DM icon">
+  <defs>
+    <style> .t{fill:#ffffff;font-family:Arial, Helvetica, sans-serif;font-weight:700;font-size:44px;} </style>
+  </defs>
+  <rect width="120" height="120" rx="60" ry="60" fill="#A84F3D" />
+  <text x="50%" y="56%" text-anchor="middle" class="t" alignment-baseline="central">DM</text>
+</svg>

@@ -10,13 +10,14 @@ const styles: React.CSSProperties = {
   marginTop: '40px',
   marginBottom: '18px',
   textAlign: 'center',
-  fontSize: 32,
+  fontSize: 'var(--fs-h2)',
   fontWeight: 700,
   color: 'var(--text-h)',
-  letterSpacing: '-0.6px',
+  letterSpacing: '0.6px',
   position: 'relative',
   paddingBottom: 12,
-  fontFamily: "var(--font-heading)",
+  fontFamily: "Georgia, 'Times New Roman', Times, serif",
+  fontStyle: 'italic',
 }
 
 const underlineStyles: React.CSSProperties = {

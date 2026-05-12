@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react'
 import { useState } from 'react'
+import SectionTitle from './SectionTitle'
 
 type Service = { id: number; title: string; desc: string; bullets?: string[] }
 
@@ -7,36 +8,31 @@ const services: Service[] = [
   {
     id: 1,
     title: 'Proyectos residenciales',
-    desc:
-      'Conceptualizamos y desarrollamos viviendas unifamiliares y proyectos de escala menor con foco en la calidad espacial, la eficiencia constructiva y la coordinación técnica con disciplinas asociadas.',
+    desc: 'Diseñamos casas que se adaptan a cómo vive cada familia, no al revés. Partimos desde una idea clara y la llevamos hasta el detalle constructivo.',
     bullets: ['Viviendas unifamiliares', 'Condominios', 'Segundas viviendas'],
   },
   {
     id: 2,
     title: 'Edificios y desarrollos',
-    desc:
-      'Realizamos el proyecto ejecutivo para edificios de departamentos, oficinas y desarrollos mixtos, atendiendo normativa, estructura y sistemas para garantizar entregables constructivos completos.',
+    desc: 'Trabajamos con desarrolladores que necesitan un proyecto sólido: bien coordinado, que cumpla la norma y que no genere sorpresas en obra.',
     bullets: ['Edificios de departamentos', 'Oficinas', 'Desarrollos mixtos'],
   },
   {
     id: 3,
     title: 'Diseño interior',
-    desc:
-      'Diseñamos interiores que integran ergonomía, estética y detalles constructivos; abarcamos cocinas, baños, locales comerciales y equipamiento incorporado al proyecto.',
-    bullets: ['Cocinas y baños', 'Locales comerciales', 'Amoblamiento a medida'],
+    desc: 'Un buen interior no es solo estético. Pensamos cada espacio para que funcione bien, se vea bien y dure en el tiempo.',
+    bullets: ['Cocinas y baños', 'Locales comerciales', 'Mobiliario a medida'],
   },
   {
     id: 4,
     title: 'Paisajismo y entorno',
-    desc:
-      'Trabajamos la relación entre edificación y terreno: diseño de jardines, terrazas y soluciones de paisaje que complementan el proyecto arquitectónico.',
-    bullets: ['Diseño de jardines', 'Terrazas y patios', 'Tratamiento de linderos'],
+    desc: 'El jardín y la terraza son parte del proyecto, no un agregado. Los diseñamos con la misma atención que el interior.',
+    bullets: ['Diseño de jardines', 'Terrazas y patios', 'Límites y accesos'],
   },
   {
     id: 5,
-    title: 'Gestión y dirección de obra',
-    desc:
-      'Acompañamos la etapa de obra con dirección técnica, coordinación de oficios, control de calidad y gestión de cronograma y costos hasta la entrega final.',
+    title: 'Dirección de obra',
+    desc: 'Estar en obra no es un plus, es parte del servicio. Coordinamos a los contratistas, controlamos los plazos y resolvemos los imprevistos antes de que se conviertan en problemas.',
     bullets: ['Dirección técnica', 'Coordinación de oficios', 'Control de calidad'],
   },
 ]
@@ -48,9 +44,9 @@ export default function Services(): ReactElement {
     <section id="services" className="container services-section">
       <div className="content services-content centered">
         <div className="services-left">
-          <small className="kicker">SERVICIOS</small>
+          <SectionTitle>Servicios</SectionTitle>
           <h1 className="services-hero">Ejecución<br/>de obra</h1>
-          <p className="services-intro">Nuestro proceso creativo es metódico y riguroso; transformamos ideas en proyectos constructivos claros y ejecutables.</p>
+          <p className="services-intro">Buscamos tener una idea clara desde el comienzo. Después la desarrollamos hasta el último detalle.</p>
         </div>
 
         <div className="services-right">
