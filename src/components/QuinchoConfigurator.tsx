@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react'
-import { useMemo, useState, useEffect } from 'react'
+import { useMemo, useState } from 'react'
 
 type PackageKey = 'Starter' | 'Pro' | 'Full'
 
@@ -58,18 +58,6 @@ type Props = {
 export default function QuinchoConfigurator({ area, setArea, pkg, setPkg }: Props): ReactElement {
   const [service, setService] = useState<string>('Diseño de Quincho')
   const [ufClp, setUfClp] = useState<number>(DEFAULT_UF_CLP)
-  const [ufLoading, setUfLoading] = useState(true)
-
-  useEffect(() => {
-    fetch('https://mindicador.cl/api/uf')
-      .then(r => r.json())
-      .then(data => {
-        const valor = data?.serie?.[0]?.valor
-        if (valor) setUfClp(Math.round(valor))
-      })
-      .catch(() => {/* usa el valor por defecto */})
-      .finally(() => setUfLoading(false))
-  }, [])
 
   const rates = RATE_PER_SQM
 
@@ -107,19 +95,8 @@ export default function QuinchoConfigurator({ area, setArea, pkg, setPkg }: Prop
           <label className="label">m² del proyecto</label>
           <input className="form-input" type="number" min={0} value={area} onChange={(e) => setArea(Math.max(0, Number(e.target.value) || 0))} />
 
-          <label className="label">
-            Valor UF (CLP)
-            <span style={{ fontSize: 11, marginLeft: 8, color: 'var(--muted)', fontWeight: 400 }}>
-              {ufLoading ? 'cargando…' : '· actualizado hoy'}
-            </span>
-          </label>
-          <input
-            className="form-input"
-            type="text"
-            readOnly
-            value={ufLoading ? '…' : `$${ufClp.toLocaleString('es-CL')}`}
-            style={{ opacity: 0.7, cursor: 'default' }}
-          />
+          <label className="label">Valor UF (CLP)</label>
+          <input className="form-input" type="number" min={1000} value={ufClp} onChange={(e) => setUfClp(Math.max(0, Number(e.target.value) || 0))} />
 
           <div style={{marginTop:12}} className="pkg-buttons" role="tablist" aria-label="Seleccionar paquete">
             {(['Starter','Pro','Full'] as PackageKey[]).map(k => (
@@ -187,8 +164,8 @@ export default function QuinchoConfigurator({ area, setArea, pkg, setPkg }: Prop
             </div>
           </div>
 
-          <a className="request-btn" href={buildWhatsAppHref()} target="_blank" rel="noreferrer" style={{display:'block',marginTop:18,textDecoration:'none',textAlign:'center',boxSizing:'border-box',width:'100%',padding:'12px 16px',fontSize:'0.9rem'}}>
-            Solicitar este paquete
+          <a className="request-btn" href={buildWhatsAppHref()} target="_blank" rel="noreferrer" style={{display:'block',marginTop:18,textDecoration:'none'}}>
+            <button className="request-btn">Solicitar este paquete</button>
           </a>
 
           <div style={{marginTop:12,color:'var(--muted)',fontSize:12}}>

@@ -1,89 +1,83 @@
-/* ═══════════════════════════════════════════════════════════
-   SISTEMA TIPOGRÁFICO — DM-A Arquitectura
-   Cargado después de index.css → sus reglas tienen prioridad
-   ═══════════════════════════════════════════════════════════ */
-
-/* H1 — Arial Bold 36-48pt */
-h1 {
-  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif !important;
-  font-weight: 700 !important;
-  font-style: normal !important;
-  font-size: clamp(36px, 5vw, 52px) !important;
-  line-height: 1.08;
-  letter-spacing: -0.02em;
-  color: var(--text);
-  margin: 0 0 0.45em 0;
+:root {
+  --color-terracota: #A84F3D;
+  --color-deep-black: #0B0B0B;
+  --color-warm-gray: #6B6159;
+  --font-sans: Arial, Helvetica, sans-serif;
+  --font-serif: Georgia, 'Times New Roman', Times, serif;
 }
 
-/* H2 — Arial Bold 24-32pt */
-h2 {
-  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif !important;
-  font-weight: 700 !important;
-  font-style: normal !important;
-  font-size: clamp(26px, 3.5vw, 36px) !important;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  color: var(--text);
+/* Headings */
+h1.proyecto-h1, h1 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  /* 36-48pt -> 48-64px */
+  font-size: clamp(48px, 6vw, 64px);
+  line-height: 1.05;
+  color: inherit; /* allow parent/background contexts (e.g., hero with white text) */
   margin: 0 0 0.5em 0;
 }
 
-/* H3 — Arial Bold 18-22pt */
-h3 {
-  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif !important;
-  font-weight: 700 !important;
-  font-style: normal !important;
-  font-size: clamp(18px, 2.5vw, 22px) !important;
-  line-height: 1.2;
-  color: var(--text);
+h2.proyecto-h2, h2 {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  /* 24-32pt -> 32-43px */
+  font-size: clamp(32px, 4.5vw, 43px);
+  line-height: 1.15;
+  color: inherit;
+  margin: 0 0 0.5em 0;
+}
+
+h3.proyecto-h3, h3 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  /* 18-22pt -> 24-29px */
+  font-size: clamp(24px, 3.2vw, 30px);
+  line-height: 1.15;
+  color: inherit;
   margin: 0 0 0.4em 0;
 }
 
-/* Body — Arial Regular 11-14pt */
-body, p {
-  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif !important;
+/* Body text */
+body, p, .proyecto-body {
+  font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 15px;
-  line-height: 1.65;
-  color: var(--text);
+  /* default between 11-14pt -> 14.6-18.6px, use 16px base */
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text, var(--color-deep-black));
 }
 
-/* Caption / leyenda — Arial Regular 9-11pt — Gris Cálido */
-small, figcaption, .caption, .muted {
-  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+/* Caption / leyenda */
+.proyecto-caption, small, figcaption {
+  font-family: var(--font-sans);
   font-weight: 400;
+  /* 9-11pt -> 12-14.6px */
   font-size: 13px;
-  line-height: 1.45;
-  color: var(--muted);
+  line-height: 1.4;
+  color: inherit; /* allow context to set caption color; use .proyecto-caption--warm to force warm gray */
 }
 
-/* Elementos que usan --font-heading (botones, labels, etc.) → Arial Bold */
-.btn, button, .label, .kicker, .pkg-btn, .request-btn, .fp-link, .nav a {
-  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+/* Utility modifiers */
+.text-terracota { color: var(--color-terracota); }
+.text-deep-black { color: var(--color-deep-black); }
+.text-warm-gray { color: var(--color-warm-gray); }
+
+/* Optional explicit caption warm class */
+.proyecto-caption--warm { color: var(--color-warm-gray); }
+
+/* Example usage helpers for the exact strings the user provided */
+.brand-h1 { font-family: var(--font-sans); font-weight:700; font-size: clamp(48px,6vw,64px); }
+.brand-h2 { font-family: var(--font-serif); font-style:italic; font-size: clamp(32px,4.5vw,43px); }
+.brand-h3 { font-family: var(--font-sans); font-weight:700; font-size: clamp(24px,3.2vw,30px); }
+
+/* Utility to keep selected words together (prevent line breaks) */
+.keep-together {
+  display: inline-block;
+  white-space: nowrap;
 }
 
-/* Títulos de sección con Georgia Italic */
-.fp-heading,
-.container h2,
-.section-title,
-.pm-title,
-.services-hero {
-  font-family: Georgia, 'Times New Roman', Times, serif;
-  font-style: italic;
-  font-weight: 400;
+/* Allow wrapping on very small screens to avoid overflow */
+@media (max-width: 420px) {
+  .keep-together { white-space: normal; }
 }
-
-/* Accordion numbers — Arial Bold por legibilidad */
-.acc-number { font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; font-weight: 700; }
-
-/* Project titles en cards y modales → Arial Bold */
-.fp-title,
-.pm-info h3,
-.featured-item h3 {
-  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
-  font-weight: 700;
-}
-
-/* Colores utilitarios */
-.text-terracota { color: var(--accent); }
-.text-negro     { color: var(--text); }
-.text-gris      { color: var(--muted); }
