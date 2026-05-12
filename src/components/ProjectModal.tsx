@@ -81,7 +81,7 @@ export default function ProjectModal({ project, open, onClose }: Props): ReactEl
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [isMounted, imgs])
+  }, [isMounted, imgs.length])
 
   // if not mounted or no project, render nothing
   if (!isMounted || !project) return null

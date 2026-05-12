@@ -3,11 +3,11 @@ import paulette from '../assets/paulette.jpg'
 import joaco from '../assets/joaco.jpg'
 import rafa from '../assets/rafa.jpg'
 
-const intro = `DM+A se crea a fines del 2015, como una empresa focalizada en la generación y comunicación de ideas creativas, cuyos socios cuentan con experiencia en todo tipo de servicios de Arquitectura y Técnicos Relacionados, Diseño, Obras en Construcción y coordinación de trabajos multidisciplinarios.
+const intro = `DM+A es un estudio de arquitectura fundado por Donoso & Monsalve, dedicado al diseño y remodelación de viviendas. Creemos que diseñar bien cambia cómo se vive: no es solo estética, es cómo habitas tu casa todos los días.
 
-Ofrecemos un servicio de alta calidad y responsable, basado en la convicción que el verdadero éxito está en forjar relaciones duraderas y confiables con cada uno de nuestros clientes.
+Acompañamos a nuestros clientes desde la idea hasta el espacio construido, con un proceso claro, cercano y centrado en cómo quieren vivir. Nos guía una pregunta desde el comienzo: ¿Cómo queremos que se viva este espacio?
 
-Buscamos un enfoque al perfeccionamiento continuo, explorando constantemente técnicas digitales y materias sobre energía y sustentabilidad, teniendo como objetivo utilizarlas como herramientas que hacen posible satisfacer las necesidades de nuestros clientes y crear un diseño sensible y preocupado por el entorno.`
+No somos una constructora masiva ni un estudio de lujo inaccesible: somos arquitectos que trabajan cerca del cliente, con foco en el resultado real.`
 
 type Member = {
   name: string
@@ -35,7 +35,7 @@ const members: Member[] = [
   },
   {
     name: 'Paulette Coulomb C.',
-    role: 'Colaboradora',
+    role: 'Pendientes a cambios',
     bio: `Paulette Andrea Coulomb Castillo (1995) realiza sus estudios en la Facultad de Arquitectura y Urbanismo de la Universidad de Chile, obteniendo su título de Arquitecta con Distinción el año 2021.
 
   Actualmente es colaboradora de DM+A Arquitectos.`,
@@ -43,7 +43,7 @@ const members: Member[] = [
   },
   {
     name: 'Florencia Feliú G.',
-    role: 'Colaboradora',
+    role: 'Pendientes a cambios',
     bio: `Florencia Antonia Feliú Guzmán (1990) arquitecta de la Universidad Diego Portales, titulada con distinción en mención de paisaje y sustentabilidad el año 2017.
 
   Actualmente colaboradora en DM+A arquitectos.`,

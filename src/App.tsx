@@ -15,6 +15,7 @@ import type { Project } from './data/projects'
 import { useState } from 'react'
 import SectionTitle from './components/SectionTitle'
 import FeaturedProjects from './components/FeaturedProjects'
+import InstagramFeed from './components/InstagramFeed'
 
 export default function App() {
   useEffect(() => {
@@ -65,8 +66,10 @@ export default function App() {
 
       <ProjectModal project={selected} open={modalOpen} onClose={() => setModalOpen(false)} />
 
+      <InstagramFeed />
+
       <section id="contact" className="container contact">
-        <ContactCallout onDesignClick={() => { console.log('ContactCallout: abrir configurador'); setShowQcModal(true) }} />
+        <ContactCallout onDesignClick={() => setShowQcModal(true)} />
       </section>
     </Layout>
   )

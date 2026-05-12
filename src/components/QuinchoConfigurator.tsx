@@ -164,8 +164,8 @@ export default function QuinchoConfigurator({ area, setArea, pkg, setPkg }: Prop
             </div>
           </div>
 
-          <a className="request-btn" href={buildWhatsAppHref()} target="_blank" rel="noreferrer" style={{display:'block',marginTop:18,textDecoration:'none'}}>
-            <button className="request-btn">Solicitar este paquete</button>
+          <a className="request-btn" href={buildWhatsAppHref()} target="_blank" rel="noreferrer" style={{display:'block',marginTop:18,textDecoration:'none',textAlign:'center'}}>
+            Solicitar este paquete
           </a>
 
           <div style={{marginTop:12,color:'var(--muted)',fontSize:12}}>

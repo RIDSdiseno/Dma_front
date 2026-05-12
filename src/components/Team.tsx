@@ -34,8 +34,16 @@ export default function Team(): ReactElement {
     : { background: 'transparent', padding: 0 }
 
   // Use dark text by default so it's always legible; keep overlay white when image is decorative
-  const bigTitle: React.CSSProperties = { fontSize: 56, lineHeight: 0.95, margin: '0 0 6px 0', fontWeight: 700, color: 'var(--text-h)' }
-  const introStyle: React.CSSProperties = { color: 'var(--muted)', fontSize: 16, maxWidth: 520, marginTop: 12, lineHeight: 1.6 }
+  const bigTitle: React.CSSProperties = {
+    fontSize: 'clamp(1.6rem, 3.5vw, 2.4rem)',
+    lineHeight: 1.1,
+    margin: '24px 0 20px 0',
+    fontWeight: 700,
+    color: 'var(--text)',
+    letterSpacing: '-0.02em',
+    fontFamily: "Arial, Helvetica, sans-serif",
+  }
+  const introStyle: React.CSSProperties = { color: 'var(--muted)', fontSize: '15px', maxWidth: 520, marginTop: 40, lineHeight: 1.7, fontFamily: "Arial, Helvetica, sans-serif" }
 
   const rowStyle: React.CSSProperties = { display: 'flex', gap: 12, alignItems: 'center', padding: '12px 12px', borderBottom: '1px solid rgba(15,23,42,0.04)', cursor: 'pointer', borderRadius: 10 }
   const thumbStyle: React.CSSProperties = { width: 72, height: 72, objectFit: 'cover', borderRadius: '50%', flexShrink: 0, boxShadow: '0 6px 20px rgba(16,24,40,0.06)', transition: 'transform .18s ease' }
@@ -49,9 +57,7 @@ export default function Team(): ReactElement {
         <div style={{ ...leftStyle }}>
           <SectionTitle>Nosotros</SectionTitle>
           <h2 style={bigTitle}>
-            <span className="h-line">Estudio de</span>
-            <span className="h-line">Arquitectura</span>
-            <span className="h-line">&amp; Diseño</span>
+            <span className="h-line">Estudio de Arquitectura &amp; Diseño</span>
           </h2>
           <p style={introStyle}>{intro}</p>
 
@@ -60,7 +66,9 @@ export default function Team(): ReactElement {
         </div>
 
         <div style={rightStyle} className="team-right">
-          {members.map((m, idx) => {
+          {members
+            .filter((m) => m.role !== 'Pendientes a cambios')
+            .map((m, idx) => {
             const isOpen = open === idx
             return (
               <div

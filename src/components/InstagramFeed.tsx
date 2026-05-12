@@ -1,34 +1,51 @@
 import type { ReactElement } from 'react'
+import { useEffect } from 'react'
 
-const INSTAGRAM_USER = 'dm_arq'
-const INSTAGRAM_URL = `https://www.instagram.com/${INSTAGRAM_USER}/`
+const INSTAGRAM_URL = 'https://www.instagram.com/dm_arq/'
 
 export default function InstagramFeed(): ReactElement {
+  useEffect(() => {
+    if (!(window as any).instgrm) {
+      const s = document.createElement('script')
+      s.async = true
+      s.src = 'https://www.instagram.com/embed.js'
+      document.body.appendChild(s)
+      s.onload = () => {
+        ;(window as any).instgrm?.Embeds?.process()
+      }
+    } else {
+      ;(window as any).instgrm?.Embeds?.process()
+    }
+  }, [])
+
   return (
-    <section id="instagram" className="container instagram-section">
-      <div className="content centered">
-        <h2 className="section-title">Lo que estamos haciendo</h2>
-
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 24 }}>
-          <iframe
-            src={`https://www.instagram.com/${INSTAGRAM_USER}/embed`}
-            width="400"
-            height="480"
-            frameBorder="0"
-            scrolling="no"
-            allowTransparency
-            title="Instagram @dm_arq"
-            style={{ border: 'none', maxWidth: '100%', borderRadius: 12 }}
-          />
-        </div>
-
-        <p style={{ textAlign: 'center', maxWidth: 400, margin: '14px auto 0', color: 'var(--muted)', fontSize: 13 }}>
-          <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer"
-            style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 700 }}>
-            @{INSTAGRAM_USER}
-          </a>
-          {' '}— proyectos en proceso, detalles y obra.
+    <section id="instagram" className="instagram-section">
+      <div className="centered">
+        <h2 className="section-title">Síguenos en Instagram</h2>
+        <p>
+          <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer">@dm_arq</a>
+          {' '}— Arquitectura &amp; Diseño
         </p>
+
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <blockquote
+            className="instagram-media"
+            data-instgrm-permalink={INSTAGRAM_URL}
+            data-instgrm-version="14"
+            style={{
+              background: 'transparent',
+              border: 0,
+              margin: 0,
+              padding: 0,
+              width: 540,
+              maxWidth: '100%',
+            }}
+          >
+            <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer">
+              Ver perfil en Instagram
+            </a>
+          </blockquote>
+        </div>
       </div>
     </section>
   )

@@ -1,7 +1,7 @@
 
 import SectionTitle from './SectionTitle'
 import type { ReactElement, Key } from 'react'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import fallbackImg from '../assets/carousel-01.jpg'
 
 // Try to use locally downloaded carousel images (src/assets/carousel-*) if present.
@@ -142,6 +142,24 @@ export default function MosaicGallery(): ReactElement {
     }
   }, [images])
 
+  const changeIndex = useCallback((newIndex: number) => {
+    if (newIndex === index) return
+    setPrevSrc(images[index])
+    setPendingIndex(newIndex)
+    setAnimating('fading-out')
+
+    setTimeout(() => {
+      setIndex(newIndex)
+      setAnimating('fading-in')
+
+      setTimeout(() => {
+        setAnimating('idle')
+        setPrevSrc(null)
+        setPendingIndex(null)
+      }, DURATION_IN)
+    }, OVERLAP_START)
+  }, [index, images])
+
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key === 'ArrowRight') changeIndex((index + 1) % total)
@@ -149,35 +167,13 @@ export default function MosaicGallery(): ReactElement {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [index, total])
+  }, [index, total, changeIndex])
 
   useEffect(() => {
     if (paused) return
     const t = setInterval(() => changeIndex((index + 1) % total), AUTOPLAY)
     return () => clearInterval(t)
-  }, [index, paused, total])
-
-  function changeIndex(newIndex: number) {
-    if (newIndex === index) return
-    // start by capturing the current image as the layer to fade out
-    setPrevSrc(images[index])
-    setPendingIndex(newIndex)
-    // begin fade-out of current image
-    setAnimating('fading-out')
-
-    // start fade-in after a short overlap so the transition is smooth
-    setTimeout(() => {
-      setIndex(newIndex)
-      setAnimating('fading-in')
-
-      // after fade-in completes, clear animation state and previous src
-      setTimeout(() => {
-        setAnimating('idle')
-        setPrevSrc(null)
-        setPendingIndex(null)
-      }, DURATION_IN)
-    }, OVERLAP_START)
-  }
+  }, [index, paused, total, changeIndex])
 
   function renderPictureFor(src: string | null, alt: string, key: Key, role?: 'prev' | 'current') {
     // If local images were bundled, `localModulesMap` contains file variants keyed by base name
